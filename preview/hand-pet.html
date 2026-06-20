@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PILLYMON — 손으로 찍은 픽셀펫</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+      :root { --paper:#fbeede; --ink:#2b2440; --red:#ff4d5e; --lcd:#cdeeae; }
+      * { margin:0; box-sizing:border-box; }
+      body { font-family:'Galmuri11',monospace; color:var(--ink); background:var(--paper);
+        background-image:radial-gradient(#f1ddc0 1.5px,transparent 1.6px); background-size:14px 14px;
+        min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:36px 16px; }
+      h1 { font-family:'Press Start 2P'; font-size:18px; text-shadow:4px 4px 0 var(--red); margin-bottom:10px; }
+      .sub { color:#5a4f72; margin-bottom:26px; font-size:14px; text-align:center; }
+      .stage-box {
+        background:var(--lcd); border:6px solid var(--ink); box-shadow:10px 10px 0 var(--ink);
+        width:360px; height:240px; position:relative; overflow:hidden; margin-bottom:14px;
+        box-shadow:inset 0 0 0 4px #b7df9a, 10px 10px 0 var(--ink);
+      }
+      .stage-box::after { content:''; position:absolute; inset:0; pointer-events:none;
+        background:repeating-linear-gradient(transparent 0 3px, rgba(52,86,58,0.07) 3px 4px); }
+      #pet { position:absolute; bottom:30px; image-rendering:pixelated; height:170px; will-change:left; }
+      .label { font-size:13px; color:#5a4f72; margin-bottom:30px; }
+      .frames { background:#fff; border:5px solid var(--ink); box-shadow:8px 8px 0 var(--ink);
+        padding:18px 20px; display:flex; gap:24px; align-items:flex-end; }
+      .frames .f { text-align:center; }
+      .frames img { image-rendering:pixelated; height:96px; display:block; margin:0 auto 8px; }
+      .frames .cap { font-family:'Press Start 2P'; font-size:9px; color:var(--red); }
+      .note { margin-top:22px; font-size:13px; color:#5a4f72; max-width:620px; text-align:center; line-height:1.8; }
+    </style>
+  </head>
+  <body>
+    <h1>HAND-PIXELED PET</h1>
+    <p class="sub">레퍼런스를 깔고 작은 픽셀로 직접 찍은 우파루파 — 깔끔한 픽셀이라 프레임 애니가 자유로워요 🦎</p>
+
+    <div class="stage-box"><img id="pet" src="hand/axo_0.png" alt="" /></div>
+    <div class="label">▲ 다리로 걸어다니고(2프레임), 가끔 눈을 깜빡여요</div>
+
+    <div class="frames">
+      <div class="f"><img src="hand/axo_0.png" /><div class="cap">WALK A</div></div>
+      <div class="f"><img src="hand/axo_1.png" /><div class="cap">WALK B</div></div>
+      <div class="f"><img src="hand/axo_blink.png" /><div class="cap">BLINK</div></div>
+    </div>
+
+    <p class="note">
+      손으로 찍은 픽셀이라 <b>눈·다리·꼬리 픽셀을 직접 제어</b> → 걷기/깜빡임/표정 프레임을 깔끔히 만들 수 있어요.<br />
+      (변환본보다 디테일은 단순하지만, 통일감·애니메이션·수정이 쉬워요.)
+    </p>
+
+    <script>
+      const pet = document.getElementById('pet');
+      const box = pet.parentElement;
+      let frame = 0, dir = 1, x = 40, blinkUntil = 0, lastSwap = 0, lastBlink = 0;
+      const SPEED = 0.35;
+      function flip() { pet.style.transform = dir === 1 ? 'scaleX(1)' : 'scaleX(-1)'; }
+      function loop(t) {
+        // walk frame swap
+        if (t - lastSwap > 230) { frame ^= 1; lastSwap = t; }
+        // blink schedule
+        if (t - lastBlink > 3400) { blinkUntil = t + 150; lastBlink = t; }
+        const blinking = t < blinkUntil;
+        pet.src = blinking ? 'hand/axo_blink.png' : (frame ? 'hand/axo_1.png' : 'hand/axo_0.png');
+        // move across, bounce at edges
+        x += SPEED * dir;
+        const maxX = box.clientWidth - pet.clientWidth - 10;
+        if (x > maxX) { x = maxX; dir = -1; flip(); }
+        if (x < 10) { x = 10; dir = 1; flip(); }
+        pet.style.left = x + 'px';
+        pet.style.bottom = 30 + Math.abs(Math.sin(t / 230)) * 4 + 'px';
+        requestAnimationFrame(loop);
+      }
+      flip();
+      requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>

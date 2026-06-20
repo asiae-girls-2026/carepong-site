@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PILLYMON — 비교 (트레이싱 vs 손작도)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+      :root{--paper:#fbeede;--ink:#2b2440;--red:#ff4d5e;--lcd:#cdeeae;}
+      *{margin:0;box-sizing:border-box}
+      body{font-family:'Galmuri11',monospace;color:var(--ink);background:var(--paper);
+        background-image:radial-gradient(#f1ddc0 1.5px,transparent 1.6px);background-size:14px 14px;
+        min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:34px 16px}
+      h1{font-family:'Press Start 2P';font-size:17px;text-shadow:4px 4px 0 var(--red);margin-bottom:8px}
+      .sub{color:#5a4f72;margin-bottom:24px;font-size:14px;text-align:center}
+      .row{display:flex;gap:28px;flex-wrap:wrap;justify-content:center}
+      .card{display:flex;flex-direction:column;align-items:center}
+      .stage{background:var(--lcd);border:6px solid var(--ink);width:300px;height:220px;position:relative;
+        overflow:hidden;box-shadow:inset 0 0 0 4px #b7df9a,10px 10px 0 var(--ink)}
+      .stage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:6;
+        background:repeating-linear-gradient(transparent 0 3px,rgba(52,86,58,.08) 3px 4px)}
+      .ground{position:absolute;left:0;right:0;bottom:34px;height:3px;background:#34563a;opacity:.22;z-index:1}
+      .pet{position:absolute;bottom:34px;image-rendering:pixelated;z-index:2}
+      .spk{position:absolute;font-size:16px;pointer-events:none;animation:tw 1.7s ease-in-out infinite;z-index:3}
+      .spk.a{top:24px;right:28px;color:#ff9ec7}.spk.b{top:80px;right:18px;color:#b89cff;animation-delay:.6s}
+      @keyframes tw{0%,100%{opacity:.1;transform:scale(.5)}50%{opacity:1;transform:scale(1.15)}}
+      .label{font-family:'Press Start 2P';font-size:10px;color:var(--ink);margin-top:14px}
+      .desc{font-size:12px;color:#5a4f72;margin-top:6px;text-align:center;max-width:280px;line-height:1.7}
+      .note{margin-top:26px;font-size:13px;color:#5a4f72;text-align:center;max-width:640px;line-height:1.9}
+      .tag{display:inline-block;background:#fff;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-size:11px;padding:4px 9px;margin:3px}
+    </style>
+  </head>
+  <body>
+    <h1>비교 · TRACED vs HAND</h1>
+    <p class="sub">둘 다 살아있어요. 디테일 vs 진짜 다리걷기를 비교해보세요 👀</p>
+    <div class="row">
+      <div class="card">
+        <div class="stage">
+          <div class="ground"></div><span class="spk a">✦</span><span class="spk b">✧</span>
+          <img class="pet" id="t" src="dot/side-hd.png" style="height:140px" />
+        </div>
+        <div class="label">A · GPT 트레이싱</div>
+        <div class="desc">디테일 최고. 통통걷기 + 깜빡임 + 반짝이.<br />(다리 번갈아 걷기는 글리치 → 안 함)</div>
+      </div>
+      <div class="card">
+        <div class="stage">
+          <div class="ground"></div><span class="spk a">✦</span><span class="spk b">✧</span>
+          <img class="pet" id="h" src="hand/side_0.png" style="height:120px" />
+        </div>
+        <div class="label">B · 손 작도</div>
+        <div class="desc">디테일 단순. 하지만 <b>진짜 다리 4개로 걷기</b>.</div>
+      </div>
+    </div>
+    <p class="note">
+      <span class="tag">A: 디테일 ◎ / 걷기 △</span><span class="tag">B: 디테일 △ / 걷기 ◎</span><br />
+      <b>최선의 조합:</b> GPT로 <b>걷는 프레임 2장</b>(앞다리 앞 / 뒷다리 앞)을 주시면 → A의 디테일 + 진짜 다리걷기 둘 다 가능해요.
+    </p>
+    <script>
+      // A: traced — bob + blink + walk across (no leg glitch)
+      const t=document.getElementById('t'),ts=t.parentElement;let tx=40,td=1,tb=0,tl=0;
+      function tf(x){t.style.transform=td===1?'scaleX(1)':'scaleX(-1)'}
+      // B: hand — real leg walk (2 frames)
+      const h=document.getElementById('h'),hs=h.parentElement;let hx=40,hd=-1,hf=0,hl=0;
+      function hf2(){h.style.transform=hd===-1?'scaleX(1)':'scaleX(-1)'}
+      function loop(ms){
+        // A
+        if(ms-tb>2800){t.dataset.blinkUntil=ms+200;tb=ms}
+        t.src=ms<(+t.dataset.blinkUntil||0)?'dot/side-hd_blink.png':'dot/side-hd.png';
+        tx+=0.28*td;const tmax=ts.clientWidth-t.clientWidth-12;if(tx>tmax){tx=tmax;td=-1;tf()}if(tx<12){tx=12;td=1;tf()}
+        t.style.left=tx+'px';t.style.bottom=(34+Math.abs(Math.sin(ms/220))*6)+'px';
+        // B
+        if(ms-hl>180){hf^=1;hl=ms}
+        h.src=hf?'hand/side_1.png':'hand/side_0.png';
+        hx+=0.5*hd;const hmax=hs.clientWidth-h.clientWidth-12;if(hx>hmax){hx=hmax;hd=-1;hf2()}if(hx<12){hx=12;hd=1;hf2()}
+        h.style.left=hx+'px';h.style.bottom=(34+(hf?1:0))+'px';
+        requestAnimationFrame(loop);
+      }
+      tf();hf2();requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>

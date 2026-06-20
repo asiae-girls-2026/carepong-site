@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PILLYMON — 약 챙겨주는 픽셀 펫</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #fbeede;
+        --paper2: #f4ddc2;
+        --ink: #2b2440;
+        --ink2: #5a4f72;
+        --red: #ff4d5e;
+        --pink: #ff9ec7;
+        --mint: #5fe0bd;
+        --sky: #8ec9ff;
+        --yellow: #ffd24a;
+        --lcd: #cdeeae;
+        --lcd-ink: #34563a;
+        --shell: #ffb3c9;
+        --shell-d: #e98aa9;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        font-family: 'Galmuri11', monospace;
+        color: var(--ink);
+        background: var(--paper);
+        background-image:
+          radial-gradient(var(--paper2) 1.5px, transparent 1.6px);
+        background-size: 14px 14px;
+        line-height: 1.7;
+        overflow-x: hidden;
+        cursor: default;
+        image-rendering: pixelated;
+      }
+      img { image-rendering: auto; display: block; }
+      .pixelated { image-rendering: pixelated; }
+
+      /* CRT scanlines + vignette overlay */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 999;
+        background:
+          repeating-linear-gradient(transparent 0 2px, rgba(43, 36, 64, 0.04) 2px 4px),
+          radial-gradient(120% 120% at 50% 40%, transparent 60%, rgba(43, 36, 64, 0.1) 100%);
+        mix-blend-mode: multiply;
+      }
+
+      /* pixel chunk helpers */
+      .chunk {
+        border: 4px solid var(--ink);
+        box-shadow: 8px 8px 0 0 var(--ink);
+        background: #fff;
+      }
+      .eng { font-family: 'Press Start 2P', monospace; line-height: 1.5; }
+      .dot { font-family: 'DotGothic16', monospace; }
+
+      /* ---------- NAV ---------- */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 22px;
+        background: var(--paper);
+        border-bottom: 4px solid var(--ink);
+      }
+      .logo { display: flex; align-items: center; gap: 10px; }
+      .logo .mark {
+        width: 26px; height: 26px; background: var(--red);
+        box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 6px var(--red);
+      }
+      .logo b { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--ink); letter-spacing: 1px; }
+      nav .tag { font-size: 13px; color: var(--ink2); }
+
+      /* ---------- HERO ---------- */
+      header {
+        position: relative;
+        padding: 64px 22px 80px;
+        max-width: 1080px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 12px;
+        background: var(--mint);
+        color: var(--ink);
+        padding: 6px 10px;
+        border: 3px solid var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
+        margin-bottom: 22px;
+      }
+      h1.title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 52px;
+        line-height: 1.15;
+        letter-spacing: 1px;
+        color: var(--ink);
+        text-shadow: 5px 5px 0 var(--red);
+        margin-bottom: 22px;
+      }
+      .lead { font-size: 19px; margin-bottom: 8px; }
+      .sub { font-size: 15px; color: var(--ink2); margin-bottom: 28px; }
+      .cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+      .btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 14px;
+        color: #fff;
+        background: var(--red);
+        border: 4px solid var(--ink);
+        box-shadow: 6px 6px 0 var(--ink);
+        padding: 16px 22px;
+        cursor: pointer;
+        transition: transform 0.05s, box-shadow 0.05s;
+        position: relative;
+      }
+      .btn:hover { background: #ff6470; }
+      .btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--ink); }
+      .btn small { display: block; font-family: 'Galmuri11'; font-size: 11px; margin-top: 6px; opacity: 0.85; }
+      .os { font-size: 12px; color: var(--ink2); }
+      .os b { color: var(--ink); }
+
+      /* tamagotchi device */
+      .device-wrap { display: flex; justify-content: center; }
+      .device {
+        width: 290px;
+        background: var(--shell);
+        border: 5px solid var(--ink);
+        box-shadow: 10px 10px 0 var(--ink);
+        border-radius: 46% 46% 44% 44% / 30% 30% 30% 30%;
+        padding: 30px 26px 26px;
+        position: relative;
+        animation: floaty 4s ease-in-out infinite;
+      }
+      @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+      .device .bolt { position: absolute; width: 8px; height: 8px; background: var(--shell-d); top: 12px; }
+      .device .bolt.l { left: 12px; } .device .bolt.r { right: 12px; }
+      .screen {
+        background: var(--lcd);
+        border: 5px solid var(--ink);
+        box-shadow: inset 0 0 0 3px #b7df9a;
+        height: 188px;
+        position: relative;
+        overflow: hidden;
+        image-rendering: pixelated;
+      }
+      .screen::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(transparent 0 3px, rgba(52,86,58,0.08) 3px 4px);
+        pointer-events: none;
+      }
+      .screen .hud {
+        position: absolute; top: 6px; left: 8px; right: 8px;
+        display: flex; justify-content: space-between;
+        font-size: 11px; color: var(--lcd-ink);
+      }
+      .screen .hud .hearts span { letter-spacing: 1px; }
+      .ground { position: absolute; left: 0; right: 0; bottom: 26px; height: 4px; background: var(--lcd-ink); opacity: 0.35; }
+      .petimg {
+        position: absolute; bottom: 24px; left: 50%;
+        width: 88px; height: 88px; object-fit: contain;
+        transform: translateX(-50%);
+        animation: walk 2.6s steps(2) infinite, stroll 9s ease-in-out infinite;
+        filter: drop-shadow(2px 3px 0 rgba(52,86,58,0.25));
+      }
+      @keyframes walk { 0%,100% { transform: translateX(-50%) translateY(0) rotate(-2deg); } 50% { transform: translateX(-50%) translateY(-5px) rotate(2deg); } }
+      @keyframes stroll { 0%,100% { margin-left: -56px; } 50% { margin-left: 56px; } }
+      .bubble {
+        position: absolute; top: 30px; left: 12px;
+        background: #fff; border: 3px solid var(--lcd-ink);
+        font-size: 11px; color: var(--lcd-ink); padding: 4px 7px;
+        animation: pop 5s ease-in-out infinite;
+      }
+      @keyframes pop { 0%, 70%, 100% { opacity: 0; transform: translateY(4px); } 78%, 92% { opacity: 1; transform: translateY(0); } }
+      .device .keys { display: flex; justify-content: center; gap: 18px; margin-top: 20px; }
+      .device .key { width: 30px; height: 30px; border-radius: 50%; background: var(--shell-d); border: 4px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+      .device .key.red { background: var(--red); }
+
+      /* floating pixel particles */
+      .particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
+      .pix { position: absolute; font-size: 18px; animation: rise linear infinite; opacity: 0.8; }
+      @keyframes rise {
+        0% { transform: translateY(20px) rotate(0deg); opacity: 0; }
+        15% { opacity: 0.9; }
+        100% { transform: translateY(-680px) rotate(20deg); opacity: 0; }
+      }
+
+      /* ---------- SECTION SHELL ---------- */
+      section { max-width: 1080px; margin: 0 auto; padding: 70px 22px; }
+      .kicker { font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--red); letter-spacing: 1px; margin-bottom: 14px; }
+      h2 { font-size: 30px; margin-bottom: 14px; letter-spacing: -0.5px; }
+      .secsub { font-size: 15px; color: var(--ink2); max-width: 640px; }
+
+      /* ---------- FEATURES ---------- */
+      .feat-grid { margin-top: 38px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+      .card {
+        background: #fff; border: 4px solid var(--ink); box-shadow: 7px 7px 0 var(--ink);
+        padding: 20px 16px; transition: transform 0.08s, box-shadow 0.08s;
+      }
+      .card:hover { transform: translate(-2px, -2px); box-shadow: 10px 10px 0 var(--ink); }
+      .card .ic {
+        width: 56px; height: 56px; display: grid; place-items: center; font-size: 28px;
+        border: 3px solid var(--ink); margin-bottom: 14px;
+      }
+      .card:nth-child(1) .ic { background: var(--pink); }
+      .card:nth-child(2) .ic { background: var(--mint); }
+      .card:nth-child(3) .ic { background: var(--sky); }
+      .card:nth-child(4) .ic { background: var(--yellow); }
+      .card h3 { font-size: 16px; margin-bottom: 8px; }
+      .card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+      /* ---------- GROWTH ---------- */
+      .growth { background: var(--ink); color: var(--paper); max-width: none; }
+      .growth-inner { max-width: 1080px; margin: 0 auto; }
+      .growth .kicker { color: var(--yellow); }
+      .growth h2 { color: #fff; }
+      .growth .secsub { color: #c8c0e0; }
+      .evo { margin-top: 40px; display: flex; align-items: flex-end; justify-content: center; gap: 6px; flex-wrap: wrap; }
+      .stage { text-align: center; }
+      .stage img { width: 84px; height: 84px; object-fit: contain; margin: 0 auto 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.35)); }
+      .stage span { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); }
+      .arrow { font-family: 'Press Start 2P'; color: var(--red); font-size: 16px; align-self: center; padding-bottom: 26px; }
+      .rare-row { margin-top: 46px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+      .rare {
+        background: #fff; color: var(--ink); border: 4px solid var(--yellow);
+        box-shadow: 6px 6px 0 var(--red); padding: 16px 18px; text-align: center; position: relative;
+      }
+      .rare .ribbon {
+        position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+        font-family: 'Press Start 2P'; font-size: 9px; background: var(--red); color: #fff;
+        padding: 4px 8px; border: 3px solid var(--ink); white-space: nowrap;
+      }
+      .rare img { width: 92px; height: 92px; object-fit: contain; margin: 8px auto 6px; }
+      .rare b { font-size: 13px; }
+
+      /* ---------- STORY (dialogue box) ---------- */
+      .dialog {
+        background: #1c1730; color: #f3eaff;
+        border: 4px solid var(--ink); box-shadow: 8px 8px 0 var(--ink);
+        padding: 26px 24px; position: relative; margin-top: 30px;
+      }
+      .dialog .who {
+        position: absolute; top: -16px; left: 18px; background: var(--red); color: #fff;
+        font-family: 'Press Start 2P'; font-size: 10px; padding: 6px 10px; border: 3px solid var(--ink);
+      }
+      .dialog p { font-size: 15px; line-height: 1.9; }
+      .dialog p + p { margin-top: 12px; }
+      .cursor { display: inline-block; width: 12px; height: 16px; background: var(--yellow); margin-left: 4px; animation: blink 1s steps(1) infinite; vertical-align: -2px; }
+      @keyframes blink { 50% { opacity: 0; } }
+
+      /* ---------- FOOTER CTA ---------- */
+      .final { text-align: center; }
+      .final .panel {
+        background: var(--mint); border: 5px solid var(--ink); box-shadow: 10px 10px 0 var(--ink);
+        padding: 50px 28px; position: relative; overflow: hidden;
+      }
+      .final h2 { font-size: 34px; }
+      .final p { font-size: 15px; color: var(--ink); margin: 10px 0 26px; }
+      .final .btn { background: var(--red); }
+      .credit { margin-top: 26px; font-size: 12px; color: var(--ink2); }
+      .credit a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); }
+
+      /* toast */
+      #toast {
+        position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px);
+        background: var(--ink); color: #fff; border: 4px solid #fff; box-shadow: 6px 6px 0 var(--red);
+        font-size: 13px; padding: 12px 18px; opacity: 0; pointer-events: none; transition: all 0.2s; z-index: 1000;
+      }
+      #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+      /* reveal on load */
+      .rv { opacity: 0; transform: translateY(14px); animation: rvin 0.6s ease forwards; }
+      @keyframes rvin { to { opacity: 1; transform: translateY(0); } }
+
+      @media (max-width: 860px) {
+        header { grid-template-columns: 1fr; text-align: center; padding-top: 40px; }
+        h1.title { font-size: 38px; }
+        .cta-row { justify-content: center; }
+        .feat-grid { grid-template-columns: 1fr 1fr; }
+        .badge { margin-top: 6px; }
+      }
+      @media (max-width: 520px) {
+        h1.title { font-size: 30px; text-shadow: 4px 4px 0 var(--red); }
+        .feat-grid { grid-template-columns: 1fr; }
+        .evo .arrow { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <div class="mark"></div>
+        <b>PILLYMON</b>
+      </div>
+      <span class="tag">약 챙겨주는 픽셀 펫 · v0.1</span>
+    </nav>
+
+    <header>
+      <div class="particles" id="particles"></div>
+      <div class="hero-copy">
+        <span class="badge rv" style="animation-delay: 0.05s">🥚 NEW · 데스크탑 다마고치</span>
+        <h1 class="title rv" style="animation-delay: 0.12s">PILLY<br />MON</h1>
+        <p class="lead rv" style="animation-delay: 0.2s">복약·수분, <b>필리몽</b>이 챙겨줄게요.</p>
+        <p class="sub rv" style="animation-delay: 0.26s">바탕화면 위에서 자라는 작은 건강 친구. 키우는 재미는 덤 🐣</p>
+        <div class="cta-row rv" style="animation-delay: 0.34s">
+          <button class="btn" onclick="comingSoon()">
+            ▶ 다운로드
+            <small>곧 출시돼요</small>
+          </button>
+          <span class="os"><b>MAC</b> 먼저 · <b>WINDOWS</b> 준비중</span>
+        </div>
+      </div>
+
+      <div class="device-wrap rv" style="animation-delay: 0.18s">
+        <div class="device">
+          <div class="bolt l"></div>
+          <div class="bolt r"></div>
+          <div class="screen">
+            <div class="hud">
+              <span class="hearts"><span>♥♥♥</span></span>
+              <span>Lv.3</span>
+            </div>
+            <div class="bubble">밥 주세요! 🍙</div>
+            <div class="ground"></div>
+            <img class="petimg" src="sprites/cat-3.png" alt="필리몽 펫" />
+          </div>
+          <div class="keys">
+            <div class="key"></div>
+            <div class="key red"></div>
+            <div class="key"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="kicker">— FEATURES</div>
+      <h2>약도 챙기고, 정도 들고.</h2>
+      <p class="secsub">알림만 주는 앱은 차갑잖아요. 필리몽은 살아있어서, 잘 챙기면 자라고 행복해져요.</p>
+      <div class="feat-grid">
+        <div class="card">
+          <div class="ic">💊</div>
+          <h3>복약 · 물 알림</h3>
+          <p>약·영양제·수분 시간을 챙겨주고, 식후/취침전 복약지도와 순응률까지.</p>
+        </div>
+        <div class="card">
+          <div class="ic">🌱</div>
+          <h3>5단계 성장</h3>
+          <p>잘 돌보면 무럭무럭. 건강·행복을 유지하면 성장이 더 빨라져요.</p>
+        </div>
+        <div class="card">
+          <div class="ic">🧑‍🤝‍🧑</div>
+          <h3>친구 · 교배</h3>
+          <p>친구를 초대해 같이 놀고, 친해지면 교배로 합성종·희귀종이 태어나요.</p>
+        </div>
+        <div class="card">
+          <div class="ic">🖥️</div>
+          <h3>바탕화면 동반자</h3>
+          <p>화면을 자유롭게 걸어다니고, 산책·뽀뽀·감정 표현까지. 늘 곁에.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="growth">
+      <div class="growth-inner">
+        <div class="kicker">— EVOLUTION</div>
+        <h2>알에서 어른까지, 5단계.</h2>
+        <p class="secsub">잘 챙긴 만큼 자라요. 방치하면 시들고… 끝내 떠나기도 해요. (다시 만날 수 있어요!)</p>
+        <div class="evo">
+          <div class="stage"><img src="sprites/cat-1.png" alt="" /><span>LV.1</span></div>
+          <div class="arrow">▶</div>
+          <div class="stage"><img src="sprites/cat-2.png" alt="" /><span>LV.2</span></div>
+          <div class="arrow">▶</div>
+          <div class="stage"><img src="sprites/cat-3.png" alt="" /><span>LV.3</span></div>
+          <div class="arrow">▶</div>
+          <div class="stage"><img src="sprites/cat-4.png" alt="" /><span>LV.4</span></div>
+          <div class="arrow">▶</div>
+          <div class="stage"><img src="sprites/cat-5.png" alt="" /><span>LV.5</span></div>
+        </div>
+        <div class="rare-row">
+          <div class="rare">
+            <div class="ribbon">✦ RARE ✦</div>
+            <img src="sprites/rare-dragon.png" alt="" />
+            <b>드래곤 교배종</b>
+          </div>
+          <div class="rare">
+            <div class="ribbon">✦ RARE ✦</div>
+            <img src="sprites/rare-unicorn.png" alt="" />
+            <b>유니콘 교배종</b>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="kicker">— STORY</div>
+      <h2>건강 습관을, 게임처럼.</h2>
+      <div class="dialog">
+        <div class="who">PILLYMON</div>
+        <p>
+          매일 약을 챙기고 물을 마시는 일은 쉽게 잊혀져요. 필리몽은 그 작은 습관을 <b>돌봄</b>으로
+          바꿔요 — 내가 잘 챙기면 필리몽이 자라고, 행복해하고, 친구를 사귀어요.
+        </p>
+        <p>오늘도, 우리 같이 건강해져요.<span class="cursor"></span></p>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="panel">
+        <div class="particles" id="particles2"></div>
+        <h2>필리몽, 만나러 갈까요?</h2>
+        <p>맥에서 먼저 만나요. 곧 데려갈 수 있어요 🥚</p>
+        <button class="btn" onclick="comingSoon()">▶ 다운로드 (곧 출시)</button>
+        <div class="credit">
+          made with 🩷 by 박채원 · <a href="#" onclick="return false">포트폴리오</a>
+        </div>
+      </div>
+    </section>
+
+    <div id="toast">곧 출시돼요! 조금만 기다려 주세요 🥚</div>
+
+    <script>
+      // floating pixel particles
+      const glyphs = ['💊', '♥', '💧', '✦', '🥚', '⭐', '🍙'];
+      function spawn(el, n) {
+        for (let i = 0; i < n; i++) {
+          const s = document.createElement('div');
+          s.className = 'pix';
+          s.textContent = glyphs[(Math.random() * glyphs.length) | 0];
+          s.style.left = Math.random() * 100 + '%';
+          s.style.bottom = '-10px';
+          s.style.animationDuration = 6 + Math.random() * 8 + 's';
+          s.style.animationDelay = Math.random() * 8 + 's';
+          s.style.fontSize = 12 + Math.random() * 14 + 'px';
+          el.appendChild(s);
+        }
+      }
+      spawn(document.getElementById('particles'), 14);
+      spawn(document.getElementById('particles2'), 8);
+
+      // download toast
+      let t;
+      function comingSoon() {
+        const el = document.getElementById('toast');
+        el.classList.add('show');
+        clearTimeout(t);
+        t = setTimeout(() => el.classList.remove('show'), 2200);
+      }
+    </script>
+  </body>
+</html>

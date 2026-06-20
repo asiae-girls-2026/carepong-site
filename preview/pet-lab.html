@@ -3,185 +3,183 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PILLYMON — 픽셀 펫 LAB</title>
+    <title>PILLYMON — 픽셀 펫 LAB (우파루파)</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <style>
-      :root { --paper:#fbeede; --ink:#2b2440; --red:#ff4d5e; --mint:#5fe0bd; }
+      :root { --paper:#fbeede; --ink:#2b2440; --red:#ff4d5e; }
       * { margin:0; box-sizing:border-box; }
       body {
         font-family:'Galmuri11',monospace; color:var(--ink); background:var(--paper);
         background-image: radial-gradient(#f1ddc0 1.5px, transparent 1.6px); background-size:14px 14px;
-        min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:40px 16px;
+        min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:36px 16px;
       }
-      h1 { font-family:'Press Start 2P'; font-size:22px; text-shadow:4px 4px 0 var(--red); margin-bottom:8px; }
-      .sub { color:#5a4f72; margin-bottom:30px; font-size:14px; }
+      h1 { font-family:'Press Start 2P'; font-size:20px; text-shadow:4px 4px 0 var(--red); margin-bottom:8px; }
+      .sub { color:#5a4f72; margin-bottom:26px; font-size:14px; text-align:center; }
       .lab {
         background:#fff; border:5px solid var(--ink); box-shadow:10px 10px 0 var(--ink);
-        padding:26px 22px; display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; justify-content:center;
+        padding:24px 18px; display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; justify-content:center;
       }
       .cell { text-align:center; }
-      canvas { image-rendering:pixelated; display:block; margin:0 auto 10px; background:
-        repeating-linear-gradient(transparent 0 5px, rgba(43,36,64,0.03) 5px 6px); }
-      .lv { font-family:'Press Start 2P'; font-size:11px; color:var(--red); }
+      canvas { image-rendering:pixelated; display:block; margin:0 auto 8px;
+        background: repeating-linear-gradient(transparent 0 6px, rgba(43,36,64,0.03) 6px 7px); }
+      .lv { font-family:'Press Start 2P'; font-size:10px; color:var(--red); }
       .age { font-size:12px; color:#8a7fb0; margin-top:3px; }
-      .controls { margin-top:24px; display:flex; gap:10px; }
+      .controls { margin-top:22px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
       button {
-        font-family:'Press Start 2P'; font-size:11px; color:#fff; background:var(--ink);
-        border:3px solid var(--ink); box-shadow:4px 4px 0 var(--red); padding:12px 14px; cursor:pointer;
+        font-family:'Press Start 2P'; font-size:10px; color:#fff; background:var(--ink);
+        border:3px solid var(--ink); box-shadow:4px 4px 0 var(--red); padding:11px 12px; cursor:pointer;
       }
       button:active { transform:translate(4px,4px); box-shadow:0 0 0 var(--red); }
-      .note { margin-top:18px; font-size:13px; color:#5a4f72; max-width:560px; text-align:center; line-height:1.7; }
+      .note { margin-top:16px; font-size:13px; color:#5a4f72; max-width:600px; text-align:center; line-height:1.7; }
     </style>
   </head>
   <body>
-    <h1>PIXEL PET LAB</h1>
-    <p class="sub">코드로 그린 5단계 성장 — 얼굴(눈)은 그대로, 몸만 자라요 🐣</p>
+    <h1>PIXEL PET LAB · 우파루파</h1>
+    <p class="sub">실제 동물(아홀로틀) 기반 — 머리 양옆 아가미 · 몸통 · 다리 4개 · 꼬리. 다리로 걸어요 🚶</p>
 
     <div class="lab" id="lab"></div>
 
     <div class="controls">
-      <button onclick="setPalette('cream')">CREAM</button>
+      <button onclick="setPalette('pink')">PINK</button>
+      <button onclick="setPalette('white')">WHITE</button>
       <button onclick="setPalette('mint')">MINT</button>
-      <button onclick="setPalette('lilac')">LILAC</button>
-      <button onclick="setPalette('sky')">SKY</button>
+      <button onclick="setPalette('gold')">GOLD</button>
+      <button onclick="toggleWalk()">WALK ON/OFF</button>
     </div>
     <p class="note">
-      색은 버튼으로 바꿔볼 수 있어요(교배종은 이렇게 파츠·색 조합으로 무한 생성 가능).<br />
-      이건 1차 드래프트예요 — 귀 모양·표정·악세서리 등 원하는 방향 말해주면 바로 다듬을게요.
+      옆모습 + 걷는 다리 애니메이션이에요. 색은 버튼으로(교배종은 파츠·색 조합으로 생성).<br />
+      2차 드래프트 — 머리/아가미/다리/꼬리 비율, 표정 등 고칠 부분 말해주면 바로 다듬을게요.
     </p>
 
     <script>
-      const W = 36, H = 40, SCALE = 5;
-      const PALETTES = {
-        cream: { o: '#ffe7b3', s: '#f0c98a', p: '#ff9ec7' },
-        mint:  { o: '#bdeecb', s: '#8fd6a6', p: '#ff9ec7' },
-        lilac: { o: '#e2d6ff', s: '#bfa9ec', p: '#ff9ec7' },
-        sky:   { o: '#c7e6ff', s: '#94c4ef', p: '#ff9ec7' },
+      const W = 50, H = 34, SCALE = 5;
+      const PAL = {
+        pink:  { o: '#ffd6e6', s: '#f3a9c8', g: '#ff86bd' },
+        white: { o: '#fbeff5', s: '#e6cdda', g: '#ff9ec7' },
+        mint:  { o: '#cdeede', s: '#94d8b6', g: '#7fd0c0' },
+        gold:  { o: '#ffe6a8', s: '#f0c474', g: '#ffb24d' },
       };
       let COL = {
-        '#': '#2b2440', e: '#2b2440', h: '#ffffff', w: '#ffffff',
-        n: '#ff6b8a', r: '#ff4d5e', y: '#ffd24a', o: '#ffe7b3', s: '#f0c98a', p: '#ff9ec7',
+        '#': '#2b2440', e: '#2b2440', h: '#ffffff', w: '#ffffff', p: '#ff6b9a',
+        o: '#ffd6e6', s: '#f3a9c8', g: '#ff86bd',
+      };
+      let WALK = true;
+
+      // side view, head on LEFT, tail on RIGHT
+      const ST = {
+        1: { hx: 14, hy: 16, hr: 6,  bx0: 12, bx1: 25, by: 18, bry: 5, tail: 6,  gills: 2, ground: 26, lf: 15, lb: 22 },
+        2: { hx: 13, hy: 15, hr: 6,  bx0: 11, bx1: 29, by: 17, bry: 6, tail: 8,  gills: 3, ground: 26, lf: 14, lb: 26 },
+        3: { hx: 13, hy: 14, hr: 7,  bx0: 11, bx1: 33, by: 17, bry: 7, tail: 9,  gills: 3, ground: 27, lf: 14, lb: 30 },
+        4: { hx: 14, hy: 13, hr: 7,  bx0: 12, bx1: 37, by: 17, bry: 7, tail: 11, gills: 3, ground: 27, lf: 15, lb: 33 },
+        5: { hx: 14, hy: 13, hr: 8,  bx0: 12, bx1: 39, by: 17, bry: 8, tail: 13, gills: 4, ground: 28, lf: 15, lb: 35 },
       };
 
-      const STAGES = {
-        1: { hcy: 26, hr: 8, brx: 0,  bry: 0, bcy: 0,  ear: 5, tail: false, bow: false, feet: false },
-        2: { hcy: 21, hr: 8, brx: 6,  bry: 5, bcy: 31, ear: 5, tail: false, bow: false, feet: true },
-        3: { hcy: 19, hr: 8, brx: 8,  bry: 7, bcy: 31, ear: 5, tail: false, bow: false, feet: true },
-        4: { hcy: 17, hr: 9, brx: 10, bry: 8, bcy: 30, ear: 6, tail: true,  bow: false, feet: true },
-        5: { hcy: 16, hr: 9, brx: 11, bry: 9, bcy: 30, ear: 6, tail: true,  bow: true,  feet: true },
-      };
-
-      function newGrid() { return Array.from({ length: H }, () => Array(W).fill('.')); }
+      const newGrid = () => Array.from({ length: H }, () => Array(W).fill('.'));
       const inb = (x, y) => x >= 0 && x < W && y >= 0 && y < H;
-      function setp(g, x, y, c) { if (inb(x, y)) g[y][x] = c; }
-      function fillEllipse(g, cx, cy, rx, ry, c) {
+      const setp = (g, x, y, c) => { if (inb(x, y)) g[y][x] = c; };
+      function ellipse(g, cx, cy, rx, ry, c) {
         for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
           const dx = (x - cx) / rx, dy = (y - cy) / ry;
           if (dx * dx + dy * dy <= 1) g[y][x] = c;
         }
       }
-      function ear(g, x0, top, w, h, c) {
-        for (let i = 0; i < h; i++) {
-          const half = Math.round((w / 2) * (1 - i / h));
-          for (let x = -half; x <= half; x++) setp(g, x0 + x, top + i, c);
-        }
-      }
       function outline(g, c) {
         const cp = g.map((r) => r.slice());
-        const nb = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]];
+        const nb = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
         for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
           if (cp[y][x] !== '.') continue;
-          if (nb.some(([dx, dy]) => inb(x + dx, y + dy) && cp[y + dy][x + dx] !== '.' && cp[y + dy][x + dx] !== '#'))
-            g[y][x] = c;
+          if (nb.some(([dx, dy]) => inb(x+dx,y+dy) && cp[y+dy][x+dx] !== '.' && cp[y+dy][x+dx] !== '#')) g[y][x] = c;
         }
       }
 
-      function buildStage(s) {
-        const P = STAGES[s], g = newGrid(), cx = 18;
-        if (P.brx) fillEllipse(g, cx, P.bcy, P.brx, P.bry, 'o');
-        if (P.tail) fillEllipse(g, cx + P.brx - 1, P.bcy, 3, 5, 'o');
-        // ears (with pink inner)
-        const eo = Math.round(P.hr * 0.6);
-        ear(g, cx - eo, P.hcy - P.hr - 1, 8, P.ear + 2, 'o');
-        ear(g, cx + eo, P.hcy - P.hr - 1, 8, P.ear + 2, 'o');
-        // head
-        fillEllipse(g, cx, P.hcy, P.hr, P.hr - 1, 'o');
-        // body bottom shadow
-        if (P.brx) for (let x = cx - P.brx + 2; x <= cx + P.brx - 2; x++) setp(g, x, P.bcy + P.bry - 1, 's');
-        // ear inner
-        setp(g, cx - eo, P.hcy - P.hr + 1, 'p'); setp(g, cx + eo, P.hcy - P.hr + 1, 'p');
+      function buildBody(s) {
+        const P = ST[s], g = newGrid();
+        // tail: taper from body right to tip, with a fin
+        for (let i = 0; i <= P.tail; i++) {
+          const t = i / P.tail;
+          const hh = Math.max(1, Math.round(P.bry * (1 - t) + (t > 0.7 ? 3 * (t - 0.7) / 0.3 : 0)));
+          const x = P.bx1 + i;
+          for (let y = P.by - hh; y <= P.by + hh; y++) setp(g, x, y, 'o');
+        }
+        // body capsule
+        const bcx = (P.bx0 + P.bx1) / 2, brx = (P.bx1 - P.bx0) / 2 + 1;
+        ellipse(g, bcx, P.by, brx, P.bry, 'o');
+        // gills (3-4 frills fanning up-back of head)
+        for (let i = 0; i < P.gills; i++) {
+          const gx = P.hx + Math.round(P.hr * 0.5) + i * 2;
+          const gy = P.hy - P.hr - 1;
+          ellipse(g, gx, gy - 1, 2, 3, 'g');
+          ellipse(g, gx, gy + 1, 2, 2, 'g');
+        }
+        // head (on top of gills/body)
+        ellipse(g, P.hx, P.hy, P.hr, P.hr - 1, 'o');
+        // belly shadow
+        for (let x = P.bx0 + 2; x <= P.bx1 - 1; x++) setp(g, x, P.by + P.bry - 1, 's');
+        // cheeks (rosy)
+        setp(g, P.hx - P.hr + 1, P.hy + 2, 'p'); setp(g, P.hx - P.hr + 2, P.hy + 2, 'p');
+        setp(g, P.hx + P.hr - 2, P.hy + 2, 'p'); setp(g, P.hx + P.hr - 3, P.hy + 2, 'p');
+        // mouth (tiny smile)
+        setp(g, P.hx - 1, P.hy + 3, '#'); setp(g, P.hx, P.hy + 4, '#'); setp(g, P.hx + 1, P.hy + 3, '#');
         outline(g, '#');
-        // feet
-        if (P.feet) { setp(g, cx - 3, P.bcy + P.bry, '#'); setp(g, cx + 3, P.bcy + P.bry, '#'); }
-        // muzzle + nose
-        fillEllipse(g, cx, P.hcy + 2, 3, 2, 'w');
-        setp(g, cx, P.hcy + 1, 'n');
-        // cheeks
-        setp(g, cx - P.hr + 1, P.hcy + 2, 'p'); setp(g, cx + P.hr - 1, P.hcy + 2, 'p');
-        // bow (stage 5)
-        if (P.bow) {
-          const by = P.hcy - P.hr - 1;
-          ['#', '#'].forEach(() => {});
-          fillEllipse(g, cx - 3, by, 2, 2, 'r'); fillEllipse(g, cx + 3, by, 2, 2, 'r');
-          setp(g, cx, by, 'y');
-        }
-        return { g, eyes: [{ x: cx - 3, y: P.hcy }, { x: cx + 3, y: P.hcy }] };
+        return { g, P, eyes: [{ x: P.hx - 3, y: P.hy }, { x: P.hx + 1, y: P.hy }] };
       }
 
-      function drawEye(ctx, x, y, open) {
-        ctx.fillStyle = COL['#'];
-        if (open) {
-          ctx.fillRect(x * SCALE, y * SCALE, 2 * SCALE, 3 * SCALE);
-          ctx.fillStyle = COL['h'];
-          ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE);
-        } else {
-          ctx.fillRect(x * SCALE, (y + 1) * SCALE, 2 * SCALE, SCALE);
-        }
+      // precompute static body grids
+      const BODY = {};
+      for (let s = 1; s <= 5; s++) BODY[s] = buildBody(s);
+
+      function px(ctx, x, y, c, oy = 0) { ctx.fillStyle = COL[c] || '#000'; ctx.fillRect(x * SCALE, (y + oy) * SCALE, SCALE, SCALE); }
+
+      function drawLeg(ctx, x, topY, footY) {
+        for (let y = topY; y <= footY; y++) { px(ctx, x, y, '#'); px(ctx, x + 1, y, 'o'); px(ctx, x + 2, y, '#'); }
+        px(ctx, x, footY, '#'); px(ctx, x + 1, footY, '#'); px(ctx, x + 2, footY, '#'); // foot
       }
 
-      function renderCell(stage) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        const cv = document.createElement('canvas');
-        cv.width = W * SCALE; cv.height = H * SCALE;
-        const ctx = cv.getContext('2d');
-        ctx.imageSmoothingEnabled = false;
-        cell.appendChild(cv);
-        const lv = document.createElement('div'); lv.className = 'lv'; lv.textContent = 'LV.' + stage; cell.appendChild(lv);
-        const age = document.createElement('div'); age.className = 'age';
-        age.textContent = ['', '부화 직후', '1일', '8일', '14일', '20일'][stage]; cell.appendChild(age);
-        cell._cv = cv; cell._ctx = ctx; cell._stage = stage;
-        return cell;
+      function drawEye(ctx, x, y, open, oy) {
+        if (open) { ctx.fillStyle = COL['#']; ctx.fillRect(x*SCALE, (y+oy)*SCALE, 2*SCALE, 3*SCALE);
+          ctx.fillStyle = COL['h']; ctx.fillRect(x*SCALE, (y+oy)*SCALE, SCALE, SCALE); }
+        else { ctx.fillStyle = COL['#']; ctx.fillRect(x*SCALE, (y+1+oy)*SCALE, 2*SCALE, SCALE); }
       }
 
       const lab = document.getElementById('lab');
       const cells = [];
-      for (let s = 1; s <= 5; s++) { const c = renderCell(s); lab.appendChild(c); cells.push(c); }
+      for (let s = 1; s <= 5; s++) {
+        const cell = document.createElement('div'); cell.className = 'cell';
+        const cv = document.createElement('canvas'); cv.width = W*SCALE; cv.height = H*SCALE;
+        const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+        cell.appendChild(cv);
+        const lv = document.createElement('div'); lv.className='lv'; lv.textContent='LV.'+s; cell.appendChild(lv);
+        const age = document.createElement('div'); age.className='age';
+        age.textContent = ['', '부화직후','1일','8일','14일','20일'][s]; cell.appendChild(age);
+        cell._ctx = ctx; cell._cv = cv; cell._s = s; lab.appendChild(cell); cells.push(cell);
+      }
 
       function frame(t) {
-        const bob = Math.sin(t / 380) * 2; // -2..2 px
-        const blink = (t % 3600) > 3450; // blink ~150ms every 3.6s
+        const bob = WALK ? Math.round(Math.sin(t / 220) * 2) : Math.round(Math.sin(t / 600) * 1);
+        const blink = (t % 4000) > 3850;
+        const step = WALK ? Math.sin(t / 220) : 0; // -1..1 leg phase
         cells.forEach((cell) => {
-          const { g, eyes } = buildStage(cell._stage);
-          const ctx = cell._ctx;
-          ctx.clearRect(0, 0, cell._cv.width, cell._cv.height);
-          const oy = Math.round(bob);
-          for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-            const ch = g[y][x]; if (ch === '.') continue;
-            ctx.fillStyle = COL[ch] || '#000';
-            ctx.fillRect(x * SCALE, (y + oy) * SCALE, SCALE, SCALE);
-          }
-          eyes.forEach((e) => drawEye(ctx, e.x, e.y + oy, !blink));
+          const { g, P, eyes } = BODY[cell._s];
+          const ctx = cell._ctx; ctx.clearRect(0, 0, cell._cv.width, cell._cv.height);
+          const oy = bob;
+          const bodyBottom = P.by + P.bry;
+          // legs first (behind body). front & back, out of phase.
+          const liftF = WALK ? Math.max(0, Math.round(step * 3)) : 0;
+          const liftB = WALK ? Math.max(0, Math.round(-step * 3)) : 0;
+          drawLeg(ctx, P.lf, bodyBottom - 1 + oy, P.ground - liftF);
+          drawLeg(ctx, P.lb, bodyBottom - 1 + oy, P.ground - liftB);
+          // body grid
+          for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const ch = g[y][x]; if (ch !== '.') px(ctx, x, y, ch, oy); }
+          // eyes
+          eyes.forEach((e) => drawEye(ctx, e.x, e.y, !blink, oy));
         });
         requestAnimationFrame(frame);
       }
       requestAnimationFrame(frame);
 
-      function setPalette(name) {
-        const p = PALETTES[name];
-        COL.o = p.o; COL.s = p.s; COL.p = p.p;
-      }
+      function setPalette(name) { const p = PAL[name]; COL.o = p.o; COL.s = p.s; COL.g = p.g; }
+      function toggleWalk() { WALK = !WALK; }
     </script>
   </body>
 </html>

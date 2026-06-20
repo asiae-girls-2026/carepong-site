@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PILLYMON — 픽셀 펫 LAB (우파루파)</title>
+    <title>PILLYMON — 픽셀 펫 LAB</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <style>
@@ -14,172 +14,61 @@
         background-image: radial-gradient(#f1ddc0 1.5px, transparent 1.6px); background-size:14px 14px;
         min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:36px 16px;
       }
-      h1 { font-family:'Press Start 2P'; font-size:20px; text-shadow:4px 4px 0 var(--red); margin-bottom:8px; }
-      .sub { color:#5a4f72; margin-bottom:26px; font-size:14px; text-align:center; }
+      h1 { font-family:'Press Start 2P'; font-size:20px; text-shadow:4px 4px 0 var(--red); margin-bottom:10px; }
+      .sub { color:#5a4f72; margin-bottom:26px; font-size:14px; text-align:center; max-width:620px; line-height:1.7; }
       .lab {
         background:#fff; border:5px solid var(--ink); box-shadow:10px 10px 0 var(--ink);
-        padding:24px 18px; display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; justify-content:center;
+        padding:22px 18px; margin-bottom:22px;
       }
+      .rowlabel { font-family:'Press Start 2P'; font-size:11px; color:var(--ink); margin:6px 0 10px; }
+      .row { display:flex; gap:14px; align-items:flex-end; flex-wrap:wrap; justify-content:center;
+        padding-bottom:14px; border-bottom:3px dashed #e3dcef; margin-bottom:14px; }
+      .row:last-child { border:0; margin-bottom:0; }
       .cell { text-align:center; }
-      canvas { image-rendering:pixelated; display:block; margin:0 auto 8px;
-        background: repeating-linear-gradient(transparent 0 6px, rgba(43,36,64,0.03) 6px 7px); }
+      .cell img {
+        image-rendering:pixelated; height:150px; width:auto; display:block; margin:0 auto 8px;
+        animation: bob 2.2s ease-in-out infinite;
+      }
+      .cell:nth-child(2) img { animation-delay:.2s } .cell:nth-child(3) img { animation-delay:.4s }
+      .cell:nth-child(4) img { animation-delay:.6s } .cell:nth-child(5) img { animation-delay:.8s }
+      @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
       .lv { font-family:'Press Start 2P'; font-size:10px; color:var(--red); }
       .age { font-size:12px; color:#8a7fb0; margin-top:3px; }
-      .controls { margin-top:22px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
-      button {
-        font-family:'Press Start 2P'; font-size:10px; color:#fff; background:var(--ink);
-        border:3px solid var(--ink); box-shadow:4px 4px 0 var(--red); padding:11px 12px; cursor:pointer;
-      }
-      button:active { transform:translate(4px,4px); box-shadow:0 0 0 var(--red); }
-      .note { margin-top:16px; font-size:13px; color:#5a4f72; max-width:600px; text-align:center; line-height:1.7; }
+      .note { font-size:13px; color:#5a4f72; max-width:640px; text-align:center; line-height:1.8; }
+      .tag { display:inline-block; background:#cdeede; border:3px solid var(--ink); box-shadow:3px 3px 0 var(--ink);
+        font-size:12px; padding:5px 10px; margin:4px; }
     </style>
   </head>
   <body>
-    <h1>PIXEL PET LAB · 우파루파</h1>
-    <p class="sub">실제 동물(아홀로틀) 기반 — 머리 양옆 아가미 · 몸통 · 다리 4개 · 꼬리. 다리로 걸어요 🚶</p>
-
-    <div class="lab" id="lab"></div>
-
-    <div class="controls">
-      <button onclick="setPalette('pink')">PINK</button>
-      <button onclick="setPalette('white')">WHITE</button>
-      <button onclick="setPalette('mint')">MINT</button>
-      <button onclick="setPalette('gold')">GOLD</button>
-      <button onclick="toggleWalk()">WALK ON/OFF</button>
-    </div>
-    <p class="note">
-      옆모습 + 걷는 다리 애니메이션이에요. 색은 버튼으로(교배종은 파츠·색 조합으로 생성).<br />
-      2차 드래프트 — 머리/아가미/다리/꼬리 비율, 표정 등 고칠 부분 말해주면 바로 다듬을게요.
+    <h1>PIXEL PET LAB</h1>
+    <p class="sub">
+      채원님이 준 카와이 스프라이트를 <b>고해상도 픽셀아트로 변환</b>했어요.<br />
+      원본 디자인(아가미·꼬리·리본·볼터치)을 그대로 살리면서 작은 픽셀 디테일로.
     </p>
 
-    <script>
-      const W = 50, H = 34, SCALE = 5;
-      const PAL = {
-        pink:  { o: '#ffd6e6', s: '#f3a9c8', g: '#ff86bd' },
-        white: { o: '#fbeff5', s: '#e6cdda', g: '#ff9ec7' },
-        mint:  { o: '#cdeede', s: '#94d8b6', g: '#7fd0c0' },
-        gold:  { o: '#ffe6a8', s: '#f0c474', g: '#ffb24d' },
-      };
-      let COL = {
-        '#': '#2b2440', e: '#2b2440', h: '#ffffff', w: '#ffffff', p: '#ff6b9a',
-        o: '#ffd6e6', s: '#f3a9c8', g: '#ff86bd',
-      };
-      let WALK = true;
+    <div class="lab">
+      <div class="rowlabel">🦎 우파루파 (AXOLOTL)</div>
+      <div class="row">
+        <div class="cell"><img src="pixel/axo-1.png" alt="" /><div class="lv">LV.1</div><div class="age">부화직후</div></div>
+        <div class="cell"><img src="pixel/axo-2.png" alt="" /><div class="lv">LV.2</div><div class="age">1일</div></div>
+        <div class="cell"><img src="pixel/axo-3.png" alt="" /><div class="lv">LV.3</div><div class="age">8일</div></div>
+        <div class="cell"><img src="pixel/axo-4.png" alt="" /><div class="lv">LV.4</div><div class="age">14일</div></div>
+        <div class="cell"><img src="pixel/axo-5.png" alt="" /><div class="lv">LV.5</div><div class="age">20일</div></div>
+      </div>
+      <div class="rowlabel">🐱 고양이 (CAT)</div>
+      <div class="row">
+        <div class="cell"><img src="pixel/cat-1.png" alt="" /><div class="lv">LV.1</div><div class="age">부화직후</div></div>
+        <div class="cell"><img src="pixel/cat-2.png" alt="" /><div class="lv">LV.2</div><div class="age">1일</div></div>
+        <div class="cell"><img src="pixel/cat-3.png" alt="" /><div class="lv">LV.3</div><div class="age">8일</div></div>
+        <div class="cell"><img src="pixel/cat-4.png" alt="" /><div class="lv">LV.4</div><div class="age">14일</div></div>
+        <div class="cell"><img src="pixel/cat-5.png" alt="" /><div class="lv">LV.5</div><div class="age">20일</div></div>
+      </div>
+    </div>
 
-      // side view, head on LEFT, tail on RIGHT
-      const ST = {
-        1: { hx: 14, hy: 16, hr: 6,  bx0: 12, bx1: 25, by: 18, bry: 5, tail: 6,  gills: 2, ground: 26, lf: 15, lb: 22 },
-        2: { hx: 13, hy: 15, hr: 6,  bx0: 11, bx1: 29, by: 17, bry: 6, tail: 8,  gills: 3, ground: 26, lf: 14, lb: 26 },
-        3: { hx: 13, hy: 14, hr: 7,  bx0: 11, bx1: 33, by: 17, bry: 7, tail: 9,  gills: 3, ground: 27, lf: 14, lb: 30 },
-        4: { hx: 14, hy: 13, hr: 7,  bx0: 12, bx1: 37, by: 17, bry: 7, tail: 11, gills: 3, ground: 27, lf: 15, lb: 33 },
-        5: { hx: 14, hy: 13, hr: 8,  bx0: 12, bx1: 39, by: 17, bry: 8, tail: 13, gills: 4, ground: 28, lf: 15, lb: 35 },
-      };
-
-      const newGrid = () => Array.from({ length: H }, () => Array(W).fill('.'));
-      const inb = (x, y) => x >= 0 && x < W && y >= 0 && y < H;
-      const setp = (g, x, y, c) => { if (inb(x, y)) g[y][x] = c; };
-      function ellipse(g, cx, cy, rx, ry, c) {
-        for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-          const dx = (x - cx) / rx, dy = (y - cy) / ry;
-          if (dx * dx + dy * dy <= 1) g[y][x] = c;
-        }
-      }
-      function outline(g, c) {
-        const cp = g.map((r) => r.slice());
-        const nb = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
-        for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-          if (cp[y][x] !== '.') continue;
-          if (nb.some(([dx, dy]) => inb(x+dx,y+dy) && cp[y+dy][x+dx] !== '.' && cp[y+dy][x+dx] !== '#')) g[y][x] = c;
-        }
-      }
-
-      function buildBody(s) {
-        const P = ST[s], g = newGrid();
-        // tail: taper from body right to tip, with a fin
-        for (let i = 0; i <= P.tail; i++) {
-          const t = i / P.tail;
-          const hh = Math.max(1, Math.round(P.bry * (1 - t) + (t > 0.7 ? 3 * (t - 0.7) / 0.3 : 0)));
-          const x = P.bx1 + i;
-          for (let y = P.by - hh; y <= P.by + hh; y++) setp(g, x, y, 'o');
-        }
-        // body capsule
-        const bcx = (P.bx0 + P.bx1) / 2, brx = (P.bx1 - P.bx0) / 2 + 1;
-        ellipse(g, bcx, P.by, brx, P.bry, 'o');
-        // gills (3-4 frills fanning up-back of head)
-        for (let i = 0; i < P.gills; i++) {
-          const gx = P.hx + Math.round(P.hr * 0.5) + i * 2;
-          const gy = P.hy - P.hr - 1;
-          ellipse(g, gx, gy - 1, 2, 3, 'g');
-          ellipse(g, gx, gy + 1, 2, 2, 'g');
-        }
-        // head (on top of gills/body)
-        ellipse(g, P.hx, P.hy, P.hr, P.hr - 1, 'o');
-        // belly shadow
-        for (let x = P.bx0 + 2; x <= P.bx1 - 1; x++) setp(g, x, P.by + P.bry - 1, 's');
-        // cheeks (rosy)
-        setp(g, P.hx - P.hr + 1, P.hy + 2, 'p'); setp(g, P.hx - P.hr + 2, P.hy + 2, 'p');
-        setp(g, P.hx + P.hr - 2, P.hy + 2, 'p'); setp(g, P.hx + P.hr - 3, P.hy + 2, 'p');
-        // mouth (tiny smile)
-        setp(g, P.hx - 1, P.hy + 3, '#'); setp(g, P.hx, P.hy + 4, '#'); setp(g, P.hx + 1, P.hy + 3, '#');
-        outline(g, '#');
-        return { g, P, eyes: [{ x: P.hx - 3, y: P.hy }, { x: P.hx + 1, y: P.hy }] };
-      }
-
-      // precompute static body grids
-      const BODY = {};
-      for (let s = 1; s <= 5; s++) BODY[s] = buildBody(s);
-
-      function px(ctx, x, y, c, oy = 0) { ctx.fillStyle = COL[c] || '#000'; ctx.fillRect(x * SCALE, (y + oy) * SCALE, SCALE, SCALE); }
-
-      function drawLeg(ctx, x, topY, footY) {
-        for (let y = topY; y <= footY; y++) { px(ctx, x, y, '#'); px(ctx, x + 1, y, 'o'); px(ctx, x + 2, y, '#'); }
-        px(ctx, x, footY, '#'); px(ctx, x + 1, footY, '#'); px(ctx, x + 2, footY, '#'); // foot
-      }
-
-      function drawEye(ctx, x, y, open, oy) {
-        if (open) { ctx.fillStyle = COL['#']; ctx.fillRect(x*SCALE, (y+oy)*SCALE, 2*SCALE, 3*SCALE);
-          ctx.fillStyle = COL['h']; ctx.fillRect(x*SCALE, (y+oy)*SCALE, SCALE, SCALE); }
-        else { ctx.fillStyle = COL['#']; ctx.fillRect(x*SCALE, (y+1+oy)*SCALE, 2*SCALE, SCALE); }
-      }
-
-      const lab = document.getElementById('lab');
-      const cells = [];
-      for (let s = 1; s <= 5; s++) {
-        const cell = document.createElement('div'); cell.className = 'cell';
-        const cv = document.createElement('canvas'); cv.width = W*SCALE; cv.height = H*SCALE;
-        const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
-        cell.appendChild(cv);
-        const lv = document.createElement('div'); lv.className='lv'; lv.textContent='LV.'+s; cell.appendChild(lv);
-        const age = document.createElement('div'); age.className='age';
-        age.textContent = ['', '부화직후','1일','8일','14일','20일'][s]; cell.appendChild(age);
-        cell._ctx = ctx; cell._cv = cv; cell._s = s; lab.appendChild(cell); cells.push(cell);
-      }
-
-      function frame(t) {
-        const bob = WALK ? Math.round(Math.sin(t / 220) * 2) : Math.round(Math.sin(t / 600) * 1);
-        const blink = (t % 4000) > 3850;
-        const step = WALK ? Math.sin(t / 220) : 0; // -1..1 leg phase
-        cells.forEach((cell) => {
-          const { g, P, eyes } = BODY[cell._s];
-          const ctx = cell._ctx; ctx.clearRect(0, 0, cell._cv.width, cell._cv.height);
-          const oy = bob;
-          const bodyBottom = P.by + P.bry;
-          // legs first (behind body). front & back, out of phase.
-          const liftF = WALK ? Math.max(0, Math.round(step * 3)) : 0;
-          const liftB = WALK ? Math.max(0, Math.round(-step * 3)) : 0;
-          drawLeg(ctx, P.lf, bodyBottom - 1 + oy, P.ground - liftF);
-          drawLeg(ctx, P.lb, bodyBottom - 1 + oy, P.ground - liftB);
-          // body grid
-          for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const ch = g[y][x]; if (ch !== '.') px(ctx, x, y, ch, oy); }
-          // eyes
-          eyes.forEach((e) => drawEye(ctx, e.x, e.y, !blink, oy));
-        });
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-
-      function setPalette(name) { const p = PAL[name]; COL.o = p.o; COL.s = p.s; COL.g = p.g; }
-      function toggleWalk() { WALK = !WALK; }
-    </script>
+    <p class="note">
+      <span class="tag">76px 해상도</span><span class="tag">22색 팔레트</span><span class="tag">원본 디자인 유지</span><br />
+      이 변환은 <b>12종 기본 + 모든 교배종/희귀종</b>에 그대로 돌릴 수 있어요.<br />
+      더 작은 픽셀(고해상도)·색 수·외곽선 등은 한 번에 조절 가능해요.
+    </p>
   </body>
 </html>

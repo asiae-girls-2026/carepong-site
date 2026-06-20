@@ -18,6 +18,12 @@
       .stage::after{content:'';position:absolute;inset:0;pointer-events:none;
         background:repeating-linear-gradient(transparent 0 3px,rgba(52,86,58,.07) 3px 4px)}
       #pet{position:absolute;bottom:34px;image-rendering:pixelated;height:150px}
+      .spk{position:absolute;font-size:18px;pointer-events:none;animation:tw 1.6s ease-in-out infinite;z-index:5}
+      .spk:nth-child(1){top:24px;right:30px;animation-delay:0s;color:#ff9ec7}
+      .spk:nth-child(2){top:70px;right:18px;animation-delay:.5s;color:#b89cff}
+      .spk:nth-child(3){top:120px;right:40px;animation-delay:1s;color:#ff9ec7}
+      .spk:nth-child(4){top:40px;left:26px;animation-delay:.8s;color:#b89cff}
+      @keyframes tw{0%,100%{opacity:.12;transform:scale(.6) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(15deg)}}
       .cmp{display:flex;gap:24px;background:#fff;border:5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:18px 22px;align-items:flex-end;margin-top:6px}
       .cmp .c{text-align:center}.cmp img{image-rendering:pixelated;height:120px;display:block;margin:0 auto 8px}
       .cmp .cap{font-family:'Press Start 2P';font-size:9px;color:var(--red)}
@@ -27,7 +33,10 @@
   <body>
     <h1>64×64 DOT PET</h1>
     <p class="sub">GPT가 만든 도트 → <b>깔끔한 64×64로 트레이싱 + 배경/반짝이 제거 + 애니</b>. 걸어다니며 윙크해요 😉</p>
-    <div class="stage"><img id="pet" src="dot/axo64.png" /></div>
+    <div class="stage">
+      <div class="spk">✦</div><div class="spk">✧</div><div class="spk">✦</div><div class="spk">✧</div>
+      <img id="pet" src="dot/axo64.png" />
+    </div>
     <div class="cmp">
       <div class="c"><img src="dot/axo64.png" /><div class="cap">TRACED 64²</div></div>
       <div class="c"><img src="dot/axo64_blink.png" /><div class="cap">WINK</div></div>

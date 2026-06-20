@@ -1,0 +1,53 @@
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PILLYMON — 32px 정석 워크플로우</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#fbeede;--ink:#2b2440;--red:#ff4d5e;--lcd:#cdeeae}
+*{margin:0;box-sizing:border-box}
+body{font-family:'Galmuri11',monospace;color:var(--ink);background:var(--paper);
+background-image:radial-gradient(#f1ddc0 1.5px,transparent 1.6px);background-size:14px 14px;
+min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:34px 16px}
+h1{font-family:'Press Start 2P';font-size:16px;text-shadow:4px 4px 0 var(--red);margin-bottom:8px}
+.sub{color:#5a4f72;margin-bottom:22px;font-size:14px;text-align:center}
+.stage{background:var(--lcd);border:6px solid var(--ink);width:380px;height:220px;position:relative;
+overflow:hidden;box-shadow:inset 0 0 0 4px #b7df9a,12px 12px 0 var(--ink)}
+.stage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:6;
+background:repeating-linear-gradient(transparent 0 3px,rgba(52,86,58,.08) 3px 4px)}
+.ground{position:absolute;left:0;right:0;bottom:40px;height:3px;background:#34563a;opacity:.22;z-index:1}
+#pet{position:absolute;bottom:40px;image-rendering:pixelated;height:128px;z-index:2}
+.spk{position:absolute;font-size:16px;animation:tw 1.7s ease-in-out infinite;z-index:3;pointer-events:none}
+.spk.a{top:24px;right:30px;color:#ff9ec7}.spk.b{top:78px;right:20px;color:#b89cff;animation-delay:.6s}
+@keyframes tw{0%,100%{opacity:.1;transform:scale(.5)}50%{opacity:1;transform:scale(1.15)}}
+.scale{margin-top:18px;background:#fff;border:5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:16px 20px;display:flex;gap:24px;align-items:flex-end}
+.scale .c{text-align:center}.scale img{image-rendering:pixelated;display:block;margin:0 auto 6px}
+.scale .cap{font-family:'Press Start 2P';font-size:8px;color:var(--red)}
+.note{margin-top:16px;font-size:13px;color:#5a4f72;text-align:center;max-width:600px;line-height:1.8}
+.tag{display:inline-block;background:#fff;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-size:11px;padding:4px 9px;margin:3px}
+</style></head><body>
+<h1>PILLYMON · 32px 정석</h1>
+<p class="sub">32×32 네이티브 → nearest ×4 = 128px. 진짜 다리걷기 + 깜빡임 ✨</p>
+<div class="stage"><div class="ground"></div><span class="spk a">✦</span><span class="spk b">✧</span>
+<img id="pet" src="px32/axo_0.png"/></div>
+<div class="scale">
+<div class="c"><img src="px32/axo_0.png" style="height:32px"/><div class="cap">32px 원본</div></div>
+<div class="c"><img src="px32/axo_0.png" style="height:64px;image-rendering:pixelated"/><div class="cap">×2 (64)</div></div>
+<div class="c"><img src="px32/axo_0.png" style="height:128px;image-rendering:pixelated"/><div class="cap">×4 (128)</div></div>
+</div>
+<p class="note"><span class="tag">32px 네이티브</span><span class="tag">11색</span><span class="tag">nearest ×4</span><span class="tag">다리걷기 ✓</span><br/>
+이 워크플로우로 12종+교배종 전부 통일되게 찍을 수 있어요. 게임에선 원하는 크기로 표시.</p>
+<script>
+const pet=document.getElementById('pet'),box=pet.parentElement;
+let x=60,dir=-1,frame=0,lastSwap=0,blinkUntil=0,lastBlink=0;
+function flip(){pet.style.transform=dir===-1?'scaleX(1)':'scaleX(-1)'}
+function loop(t){
+if(t-lastSwap>200){frame^=1;lastSwap=t}
+if(t-lastBlink>3000){blinkUntil=t+180;lastBlink=t}
+pet.src=t<blinkUntil?'px32/axo_blink.png':(frame?'px32/axo_1.png':'px32/axo_0.png');
+x+=0.45*dir;const mx=box.clientWidth-pet.clientWidth-16;
+if(x>mx){x=mx;dir=-1;flip()}if(x<16){x=16;dir=1;flip()}
+pet.style.left=x+'px';pet.style.bottom=(40+(frame?1:0))+'px';
+requestAnimationFrame(loop);}
+flip();requestAnimationFrame(loop);
+</script></body></html>

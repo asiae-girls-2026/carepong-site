@@ -1,6 +1,14 @@
 # 필리몽(Pillymon) 사이트 — 진행 상태 메모
 
-_업데이트: 2026-06-21_
+_업데이트: 2026-09-11_
+
+## 링크/배포 현황 (2026-09-11)
+- **배포 완료: https://pillymon.vercel.app** (Vercel 프로젝트 `pillymon`, 프로덕션, 정적 배포)
+- 배포 대상은 `site/` 폴더(랜딩 `index.html` + `sprites/`)만. 검색 차단(noindex 메타 + robots.txt) 적용, 파비콘은 고양이 Lv.3.
+- 재배포: `cd ~/pillymon-site/site && vercel --prod --yes` (이미 링크됨, `.vercel/` 있음)
+- 실험 뷰어들(`preview/dot-32.html` 등)은 로컬 전용으로 남김. 이미지 참조 전수 확인 완료 — 깨진 링크 없음.
+- 폴더 정리: 루트에 흩어져 있던 작도 스크립트 17개 → `scripts/`로 이동 (실행은 레포 루트에서 `node scripts/xxx.cjs`).
+- Next.js 전환은 안 함(불필요 판단) — 페이지 추가/서버 기능 필요해질 때 재검토.
 
 ## 지금까지
 - **앱(desktop-pet)**: 1차 마감 완료(태그 `app-1.0`). 별도 레포 `/Users/chaewon/desktop-pet`.
@@ -9,7 +17,7 @@ _업데이트: 2026-06-21_
   - 이름 **필리몽(Pillymon)**, 단일 롱스크롤, Next.js+Vercel(예정), 건강+귀여움, 다운로드 버튼은 자리만.
 
 ## 만들어 둔 시안/실험 (`preview/`)
-- `index.html` — 픽셀 다마고치 **랜딩 시안**(히어로/기능/성장/스토리/CTA).
+- `../site/index.html` — 픽셀 다마고치 **랜딩**(히어로/기능/성장/스토리/CTA) — 배포됨(위 링크). `preview/`에서 이동함.
 - `pet-lab.html` — 스프라이트→픽셀 변환 5단계 갤러리(우파루파/고양이).
 - `hand-pet.html` — 손작도 옆모습(걷기 2프레임).
 - `dot-pet.html` / `dot-sample.html` — 레퍼런스 트레이싱(64/128) + 윙크/통통걷기/반짝이.
@@ -21,7 +29,7 @@ _업데이트: 2026-06-21_
 **32×32 네이티브로 직접 작도(8~16색) → nearest-neighbor 정수배(×4=128) → 게임/사이트 표시.**
 - 32px = 클로드가 한 칸씩 통제 가능 + 표정·실루엣·다리 표현 가능의 교집합.
 - 다리가 분리돼 **진짜 다리걷기** 됨. 외곽선 깔끔. 전부 코드로 제어 → 애니·수정 자유.
-- 스크립트: `draw-32.cjs`(작도+프레임), `render-lib.cjs`(렌더), `trace-any.cjs`(이미지 트레이싱, 알파/흰배경), `blink-any.cjs`(눈깜빡임 검출).
+- 스크립트(`scripts/`): `draw-32.cjs`(작도+프레임), `render-lib.cjs`(렌더), `trace-any.cjs`(이미지 트레이싱, 알파/흰배경), `blink-any.cjs`(눈깜빡임 검출).
 - 검증법: 렌더 PNG를 직접 열어보고(Read) 수정 반복.
 
 ## 알게 된 것

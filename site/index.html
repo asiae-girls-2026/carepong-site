@@ -137,6 +137,9 @@
       .btn:hover { background: #ff6470; }
       .btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--ink); }
       .btn small { display: block; font-family: 'Galmuri11'; font-size: 11px; margin-top: 6px; opacity: 0.85; }
+      a.btn { text-decoration: none; display: inline-block; text-align: center; }
+      .btn--soon { background: #a9a2c2; }
+      .btn--soon:hover { background: #b8b1cf; }
       .os { font-size: 12px; color: var(--ink2); }
       .os b { color: var(--ink); }
 
@@ -238,7 +241,7 @@
       .growth .secsub { color: #c8c0e0; }
       .evo { margin-top: 40px; display: flex; align-items: flex-end; justify-content: center; gap: 6px; flex-wrap: wrap; }
       .stage { text-align: center; }
-      .stage img { width: 84px; height: 84px; object-fit: contain; margin: 0 auto 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.35)); }
+      .stage img { width: 128px; height: 128px; object-fit: contain; margin: 0 auto 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.35)); }
       .stage span { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); }
       .arrow { font-family: 'Press Start 2P'; color: var(--red); font-size: 16px; align-self: center; padding-bottom: 26px; }
       .rare-row { margin-top: 46px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
@@ -278,7 +281,9 @@
       .final h2 { font-size: 34px; }
       .final p { font-size: 15px; color: var(--ink); margin: 10px 0 26px; }
       .final .btn { background: var(--red); }
-      .credit { margin-top: 26px; font-size: 12px; color: var(--ink2); }
+      .final .btn--soon { background: #a9a2c2; }
+      .notice { margin-top: 22px; font-size: 11.5px; color: var(--ink2); opacity: 0.9; }
+      .credit { margin-top: 14px; font-size: 12px; color: var(--ink2); }
       .credit a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); }
 
       /* toast */
@@ -322,13 +327,16 @@
         <span class="badge rv" style="animation-delay: 0.05s">🫧 NEW · 데스크탑 케어펫</span>
         <h1 class="title rv" style="animation-delay: 0.12s">CARE<br />PONG</h1>
         <p class="lead rv" style="animation-delay: 0.2s">스트레스 받는 순간, <b>케어퐁</b>이 먼저 알아차려요.</p>
-        <p class="sub rv" style="animation-delay: 0.26s">키보드·마우스의 리듬만 느끼고(내용은 절대 안 봐요!), 지친 순간 먼저 말을 거는 작은 친구 🐾</p>
+        <p class="sub rv" style="animation-delay: 0.26s">키보드·마우스의 리듬으로 당신의 스트레스를 알아채고, 케어해주는 나만의 데스크톱 펫 🐾</p>
         <div class="cta-row rv" style="animation-delay: 0.34s">
-          <button class="btn" onclick="comingSoon()">
-            ▶ 다운로드
-            <small>1차 베타 준비 중</small>
+          <a class="btn" href="https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-0.1.0.exe" download>
+            ▶ WINDOWS 다운로드
+            <small>v0.1 베타 · 무료</small>
+          </a>
+          <button class="btn btn--soon" onclick="comingSoon('MAC 버전은 출시 예정이에요! 조금만 기다려 주세요 🍎')">
+            MAC
+            <small>출시 예정</small>
           </button>
-          <span class="os"><b>MAC</b> · <b>WINDOWS</b> 지원</span>
         </div>
       </div>
 
@@ -362,7 +370,7 @@
         <div class="card">
           <div class="ic">🫧</div>
           <h3>스트레스 감지 · 1분 완화</h3>
-          <p>타이핑·마우스 리듬으로 과부하를 알아차리면 먼저 물어봐요. 심호흡·짧은 명상·수다로 딱 1분 쉬어가요. 무슨 내용을 쓰는지는 절대 안 봐요.</p>
+          <p>타이핑·마우스 리듬으로 과부하를 알아차리면 먼저 물어봐요. 심호흡·짧은 명상·수다로 딱 1분 쉬어가요.</p>
         </div>
         <div class="card">
           <div class="ic">💊</div>
@@ -386,7 +394,7 @@
       <div class="growth-inner">
         <div class="kicker">— EVOLUTION</div>
         <h2>돌볼수록 화려해지는 5단계.</h2>
-        <p class="secsub">잘 챙긴 만큼 아이템이 하나씩 붙어요. 게이지가 0이 되어도 시무룩해질 뿐, 절대 떠나지 않아요.</p>
+        <p class="secsub">내 건강을 잘 케어하면, 펫도 레벨 업! 점점 이뻐지는 내 펫과 함께해요.</p>
         <div class="evo">
           <div class="stage"><img src="sprites/cp-cat-1.png" alt="" /><span>LV.1</span></div>
           <div class="arrow">▶</div>
@@ -401,13 +409,13 @@
         <div class="rare-row">
           <div class="rare">
             <div class="ribbon">① 첫 번째 친구</div>
-            <img src="sprites/cp-cat-1.png" alt="검정 고양이" />
-            <b>검정 고양이</b>
+            <img src="sprites/cp-cat-1.png" alt="냥냥퐁" />
+            <b>냥냥퐁</b>
           </div>
           <div class="rare">
             <div class="ribbon">② 두 번째 친구</div>
-            <img src="sprites/cp-dragon.png" alt="용가리" />
-            <b>용가리</b>
+            <img src="sprites/cp-dragon.png" alt="용용퐁" />
+            <b>용용퐁</b>
           </div>
           <div class="rare">
             <div class="ribbon">✦ ? ? ? ✦</div>
@@ -416,7 +424,7 @@
           </div>
         </div>
         <p class="secsub" style="margin: 26px auto 0; text-align: center;">
-          Lv.5가 되면 다음 친구를 만나요. 함께한 친구들은 펫 도감에 차곡차곡 모여요 🐾
+          만렙 달성 시, 랜덤으로 펫 환생! 미스테리 박스를 노려봐요!
         </p>
       </div>
     </section>
@@ -428,7 +436,7 @@
         <div class="who">CAREPONG</div>
         <p>
           모니터 앞의 하루는 생각보다 수고로워요. 바빠지면 숨 돌리는 것도 잊죠. 케어퐁은
-          키보드와 마우스의 <b>리듬만</b> 느끼고(무슨 내용인지는 안 봐요), 당신이 지쳐갈 때
+          키보드와 마우스의 <b>리듬</b>을 느끼고, 당신이 지쳐갈 때
           먼저 말을 걸어요 — "지금 스트레스를 받고 계신가요?"
         </p>
         <p>
@@ -443,10 +451,23 @@
       <div class="panel">
         <div class="particles" id="particles2"></div>
         <h2>케어퐁, 만나러 갈까요?</h2>
-        <p>맥·윈도우 모두 준비 중이에요. 1차 베타에서 먼저 만나요 ☕</p>
-        <button class="btn" onclick="comingSoon()">▶ 다운로드 (베타 준비 중)</button>
+        <p>윈도우에서 먼저 만나요. 맥은 출시 예정이에요 ☕</p>
+        <div class="cta-row" style="justify-content: center;">
+          <a class="btn" href="https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-0.1.0.exe" download>
+            ▶ WINDOWS 다운로드
+            <small>v0.1 베타 · 무료</small>
+          </a>
+          <button class="btn btn--soon" onclick="comingSoon('MAC 버전은 출시 예정이에요! 조금만 기다려 주세요 🍎')">
+            MAC
+            <small>출시 예정</small>
+          </button>
+        </div>
+        <p class="notice">
+          케어퐁은 업무 리듬 측정을 위해 키보드·마우스의 입력 횟수와 움직임을 수집합니다.
+          입력한 글자 내용이나 창 제목은 수집하지 않습니다.
+        </p>
         <div class="credit">
-          made with 🩷 by 박채원
+          © 2026 CarePong Team. All rights reserved.
         </div>
       </div>
     </section>
@@ -474,8 +495,9 @@
 
       // download toast
       let t;
-      function comingSoon() {
+      function comingSoon(msg) {
         const el = document.getElementById('toast');
+        if (msg) el.textContent = msg;
         el.classList.add('show');
         clearTimeout(t);
         t = setTimeout(() => el.classList.remove('show'), 2200);

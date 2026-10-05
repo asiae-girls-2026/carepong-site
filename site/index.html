@@ -16,20 +16,23 @@
     />
     <style>
       :root {
-        /* 로고 팔레트(딥 네이비·틸·민트) 반영 */
-        --paper: #f3f6ef;
-        --paper2: #dcebe4;
-        --ink: #14314a;
-        --ink2: #44617a;
-        --red: #ff4d5e;
-        --pink: #ff9ec7;
-        --mint: #8ef0dd;
-        --sky: #49b9cc;
-        --yellow: #ffd24a;
-        --lcd: #d2f1e8;
-        --lcd-ink: #22565e;
-        --shell: #5cc8d6;
-        --shell-d: #3aa6b6;
+        /* 세일러문 컬러차트 — 핑크 × 오묘한 민트블루 × 세일러 네이비퍼플
+           Moon Pink  #F26DA0 / Petal #FBB7D0 / Paper #FDF3F7
+           Mystic Mint #9FE7E0 / Serenity Sky #8FD0EC
+           Sailor Navy #3A3563 / Twilight #6F6794 / Moonlight Gold #FFD54F */
+        --paper: #fdf3f7;
+        --paper2: #f7dcea;
+        --ink: #3a3563;
+        --ink2: #6f6794;
+        --red: #f26da0;
+        --pink: #fbb7d0;
+        --mint: #9fe7e0;
+        --sky: #8fd0ec;
+        --yellow: #ffd54f;
+        --lcd: #dff4f0;
+        --lcd-ink: #3f6a74;
+        --shell: #f9b6ce;
+        --shell-d: #e88fb4;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -56,8 +59,8 @@
         pointer-events: none;
         z-index: 999;
         background:
-          repeating-linear-gradient(transparent 0 2px, rgba(43, 36, 64, 0.04) 2px 4px),
-          radial-gradient(120% 120% at 50% 40%, transparent 60%, rgba(43, 36, 64, 0.1) 100%);
+          repeating-linear-gradient(transparent 0 2px, rgba(58, 53, 99, 0.04) 2px 4px),
+          radial-gradient(120% 120% at 50% 40%, transparent 60%, rgba(58, 53, 99, 0.1) 100%);
         mix-blend-mode: multiply;
       }
 
@@ -133,7 +136,7 @@
         position: relative;
         text-align: center;
       }
-      .btn:hover { background: #ff6470; }
+      .btn:hover { background: #f786b1; }
       .btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--ink); }
       .btn small { display: block; font-family: 'Galmuri11'; font-size: 11px; margin-top: 6px; opacity: 0.85; }
       a.btn { text-decoration: none; display: inline-block; text-align: center; }
@@ -141,8 +144,8 @@
         display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
         width: 240px; height: 88px; box-sizing: border-box; padding: 12px 16px;
       }
-      .btn--soon { background: #a9a2c2; }
-      .btn--soon:hover { background: #b8b1cf; }
+      .btn--soon { background: #a4c9d8; }
+      .btn--soon:hover { background: #b5d6e3; }
       .os { font-size: 12px; color: var(--ink2); }
       .os b { color: var(--ink); }
 
@@ -164,7 +167,7 @@
       .screen {
         background: var(--lcd);
         border: 5px solid var(--ink);
-        box-shadow: inset 0 0 0 3px #a9ddd0;
+        box-shadow: inset 0 0 0 3px #bfe6de;
         height: 188px;
         position: relative;
         overflow: hidden;
@@ -173,7 +176,7 @@
       .screen::before {
         content: '';
         position: absolute; inset: 0;
-        background: repeating-linear-gradient(transparent 0 3px, rgba(34,86,94,0.08) 3px 4px);
+        background: repeating-linear-gradient(transparent 0 3px, rgba(63,106,116,0.08) 3px 4px);
         pointer-events: none;
       }
       .screen .hud {
@@ -188,7 +191,7 @@
         width: 88px; height: 88px; object-fit: contain;
         transform: translateX(-50%);
         animation: walk 2.6s steps(2) infinite, stroll 9s ease-in-out infinite;
-        filter: drop-shadow(2px 3px 0 rgba(34,86,94,0.25));
+        filter: drop-shadow(2px 3px 0 rgba(63,106,116,0.25));
       }
       @keyframes walk { 0%,100% { transform: translateX(-50%) translateY(0) rotate(-2deg); } 50% { transform: translateX(-50%) translateY(-5px) rotate(2deg); } }
       @keyframes stroll { 0%,100% { margin-left: -56px; } 50% { margin-left: 56px; } }
@@ -241,10 +244,10 @@
       .growth-inner { max-width: 1080px; margin: 0 auto; }
       .growth .kicker { color: var(--yellow); }
       .growth h2 { color: #fff; }
-      .growth .secsub { color: #a9cde0; }
+      .growth .secsub { color: #cdc5e8; }
       .evo { margin-top: 40px; display: flex; align-items: flex-end; justify-content: center; gap: 6px; flex-wrap: wrap; }
       .stage { text-align: center; }
-      .stage img { width: 168px; height: 168px; object-fit: contain; margin: 0 auto 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.35)); }
+      .stage img { width: 148px; height: 148px; object-fit: contain; margin: 0 auto 8px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.35)); }
       .stage span { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); }
       .arrow { font-family: 'Press Start 2P'; color: var(--red); font-size: 16px; align-self: center; padding-bottom: 26px; }
       .rare-row { margin-top: 46px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
@@ -262,7 +265,7 @@
 
       /* ---------- STORY (dialogue box) ---------- */
       .dialog {
-        background: #0f2638; color: #e9f7f2;
+        background: #2c2850; color: #f6effa;
         border: 4px solid var(--ink); box-shadow: 8px 8px 0 var(--ink);
         padding: 26px 24px; position: relative; margin-top: 30px;
       }
@@ -284,7 +287,7 @@
       .final h2 { font-size: 34px; }
       .final p { font-size: 15px; color: var(--ink); margin: 10px 0 26px; }
       .final .btn { background: var(--red); }
-      .final .btn--soon { background: #a9a2c2; }
+      .final .btn--soon { background: #a4c9d8; }
       .notice { margin-top: 22px; font-size: 11.5px; color: var(--ink2); opacity: 0.9; }
       .credit { margin-top: 14px; font-size: 12px; color: var(--ink2); }
       .credit a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); }
@@ -321,16 +324,16 @@
         <img class="mark" src="sprites/cp-logo.png" alt="케어퐁 로고" />
         <b>CAREPONG</b>
       </div>
-      <span class="tag">스트레스 케어 픽셀 펫 · v1.0</span>
+      <span class="tag">직딩 헬스케어 데스크톱 펫 · v1.0</span>
     </nav>
 
     <header>
       <div class="particles" id="particles"></div>
       <div class="hero-copy">
-        <span class="badge rv" style="animation-delay: 0.05s">🫧 NEW · 데스크탑 케어펫</span>
+        <span class="badge rv" style="animation-delay: 0.05s">🌙 신상 데스크톱 펫 출시</span>
         <h1 class="title rv" style="animation-delay: 0.12s">CARE<br />PONG</h1>
         <p class="lead rv" style="animation-delay: 0.2s">스트레스 받는 순간, <b>케어퐁</b>이 먼저 알아차려요.</p>
-        <p class="sub rv" style="animation-delay: 0.26s">키보드·마우스의 리듬으로 당신의 스트레스를 알아채고, 케어해주는 나만의 데스크톱 펫 🐾</p>
+        <p class="sub rv" style="animation-delay: 0.26s">키보드·마우스의 리듬으로 당신의 스트레스를 알아채고,<br />케어해주는 나만의 데스크톱 펫 🐾</p>
         <div class="cta-row rv" style="animation-delay: 0.34s">
           <a class="btn" href="https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-1.0.0.exe" download>
             ▶ WINDOWS 다운로드
@@ -476,7 +479,7 @@
 
     <script>
       // floating pixel particles
-      const glyphs = ['💊', '♥', '💧', '✦', '🫧', '⭐', '☕'];
+      const glyphs = ['🌙', '✨', '💫', '☁️', '⭐', '🫧', '💗'];
       function spawn(el, n) {
         for (let i = 0; i < n; i++) {
           const s = document.createElement('div');

@@ -1,14 +1,14 @@
 # 필리몽(Pillymon) 사이트 — 진행 상태 메모
 
-_업데이트: 2026-09-11_
+_업데이트: 2026-10-05_
 
-## 링크/배포 현황 (2026-09-11)
-- **배포 완료: https://pillymon.vercel.app** (Vercel 프로젝트 `pillymon`, 프로덕션, 정적 배포)
-- 배포 대상은 `site/` 폴더(랜딩 `index.html` + `sprites/`)만. 검색 차단(noindex 메타 + robots.txt) 적용, 파비콘은 고양이 Lv.3.
-- 재배포: `cd ~/pillymon-site/site && vercel --prod --yes` (이미 링크됨, `.vercel/` 있음)
-- 실험 뷰어들(`preview/dot-32.html` 등)은 로컬 전용으로 남김. 이미지 참조 전수 확인 완료 — 깨진 링크 없음.
-- 폴더 정리: 루트에 흩어져 있던 작도 스크립트 17개 → `scripts/`로 이동 (실행은 레포 루트에서 `node scripts/xxx.cjs`).
-- Next.js 전환은 안 함(불필요 판단) — 페이지 추가/서버 기능 필요해질 때 재검토.
+## 링크/배포 현황 (2026-10-05)
+- **이 레포는 이제 케어퐁(CarePong) 랜딩** — 필리몽 랜딩을 케어퐁 다운로드 사이트로 전면 개편.
+- **배포 완료: https://carepong.vercel.app** (Vercel 새 프로젝트 `carepong`, 프로덕션, `site/` 정적 배포, noindex 유지)
+- 구 주소 https://pillymon.vercel.app 는 옛 필리몽 내용 그대로 살아있음(프로젝트 `pillymon` 별도) — 내릴지 보류.
+- 재배포: `cd ~/pillymon-site/site && vercel --prod --yes` (`.vercel/`이 carepong에 링크됨)
+- 개편 내용: 카피 전부 케어퐁(스트레스 감지·1분 완화·알람4종·미니홈·하트 방꾸미기·펫 도감, 죽음 없음) / 캐릭터 3종 소개(검정 고양이·용가리·미스터리 박스) / 성장 5단계 = 디자인본 고양이 Lv.1~5.
+- 스프라이트 파이프라인: `scripts/carepong_sprites.py` — `~/Desktop/케어퐁/디자인/`의 고양이1~5(베이지 격자 배경 플러드필 제거+Lv라벨 제거+트림), 용가리(트림+1/3 축소), 미스터리 박스(24px 직접 작도 ×12) → `site/sprites/cp-*.png`.
 
 ## 지금까지
 - **앱(desktop-pet)**: 1차 마감 완료(태그 `app-1.0`). 별도 레포 `/Users/chaewon/desktop-pet`.

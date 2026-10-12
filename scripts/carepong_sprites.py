@@ -6,7 +6,7 @@ from collections import deque
 from PIL import Image
 
 SRC = '/Users/chaewon/Desktop/프로젝트_정리/프로젝트/2026.09-10_케어퐁/디자인/'
-OUT = '/Users/chaewon/pillymon-site/site/sprites/'
+OUT = '/Users/chaewon/Desktop/프로젝트_정리/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/site/sprites/'
 
 
 def flood_bg(im, tol=26):

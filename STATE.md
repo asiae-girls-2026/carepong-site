@@ -6,13 +6,13 @@ _업데이트: 2026-10-05_
 - **이 레포는 이제 케어퐁(CarePong) 랜딩** — 필리몽 랜딩을 케어퐁 다운로드 사이트로 전면 개편.
 - **배포 완료: https://carepong.vercel.app** (Vercel 새 프로젝트 `carepong`, 프로덕션, `site/` 정적 배포, noindex 유지)
 - 구 주소 https://pillymon.vercel.app 는 옛 필리몽 내용 그대로 살아있음(프로젝트 `pillymon` 별도) — 내릴지 보류.
-- 재배포: `cd ~/Desktop/프로젝트_정리/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/site && vercel --prod --yes` (`.vercel/`이 carepong에 링크됨)
+- 재배포: `cd ~/Desktop/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/site && vercel --prod --yes` (`.vercel/`이 carepong에 링크됨)
 - **다운로드(10/5 저녁)**: 윈도우 설치본(102MB)은 Vercel 100MB 한도 초과 → **Vercel Blob**(스토어 carepong-files, public)으로 호스팅. URL: https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-0.1.0.exe · 재업로드: `cd site && vercel blob put <파일> --access public --rw-token $(grep BLOB_READ_WRITE_TOKEN .env.local | cut -d'"' -f2)` (.env.local은 git/배포 제외). 맥 버튼은 '출시 예정' 토스트.
 - 개편 내용: 카피 전부 케어퐁(스트레스 감지·1분 완화·알람4종·미니홈·하트 방꾸미기·펫 도감, 죽음 없음) / 캐릭터 3종 소개(검정 고양이·용가리·미스터리 박스) / 성장 5단계 = 디자인본 고양이 Lv.1~5.
 - 스프라이트 파이프라인: `scripts/carepong_sprites.py` — `~/Desktop/케어퐁/디자인/`의 고양이1~5(베이지 격자 배경 플러드필 제거+Lv라벨 제거+트림), 용가리(트림+1/3 축소), 미스터리 박스(24px 직접 작도 ×12) → `site/sprites/cp-*.png`.
 
 ## 지금까지
-- **앱(desktop-pet)**: 1차 마감 완료(태그 `app-1.0`). 별도 레포 `/Users/chaewon/Desktop/프로젝트_정리/프로젝트/2026.06-09_필리몽/desktop-pet_원조앱`.
+- **앱(desktop-pet)**: 1차 마감 완료(태그 `app-1.0`). 별도 레포 `/Users/chaewon/Desktop/프로젝트/2026.06-09_필리몽/desktop-pet_원조앱`.
 - **사이트(이 레포)**: 배포용 랜딩 설계 확정 → 픽셀 펫 아트 방식 탐색 중.
   - 설계 문서: `docs/superpowers/specs/2026-06-20-pillymon-landing-design.md`
   - 이름 **필리몽(Pillymon)**, 단일 롱스크롤, Next.js+Vercel(예정), 건강+귀여움, 다운로드 버튼은 자리만.
@@ -44,4 +44,4 @@ _업데이트: 2026-10-05_
 3. 사이트(랜딩) 본 구현 착수 시점(Next.js 스캐폴딩) — 펫 먼저냐 사이트 먼저냐.
 
 ## 재개 시
-`open ~/Desktop/프로젝트_정리/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/preview/dot-32.html` 부터 보면 현재 유력안 확인 가능.
+`open ~/Desktop/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/preview/dot-32.html` 부터 보면 현재 유력안 확인 가능.

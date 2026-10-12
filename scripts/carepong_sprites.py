@@ -5,7 +5,7 @@
 from collections import deque
 from PIL import Image
 
-SRC = '/Users/chaewon/Desktop/케어퐁/디자인/'
+SRC = '/Users/chaewon/Desktop/프로젝트_정리/2026.09-10_케어퐁/디자인/'
 OUT = '/Users/chaewon/pillymon-site/site/sprites/'
 
 

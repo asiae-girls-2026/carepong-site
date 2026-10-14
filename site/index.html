@@ -254,25 +254,36 @@
 
 
       /* ---------- HOW TO ---------- */
-      .howto-grid { margin-top: 38px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-      .howto {
+      .ht-wrap { margin-top: 30px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 24px; align-items: stretch; }
+      .ht-mock {
         background: #fff; border: 4px solid var(--ink); box-shadow: 7px 7px 0 var(--ink);
-        padding: 22px 20px;
+        padding: 26px 22px 16px; display: flex; flex-direction: column; justify-content: center;
       }
-      .howto h3 { font-size: 18px; margin-bottom: 14px; }
       .ht-bubble {
         position: relative; background: var(--paper); border: 3px solid var(--ink);
-        padding: 12px 14px; margin: 10px 0 14px; font-size: 14px;
+        padding: 12px 14px; font-size: 14px;
       }
-      .ht-bubble::after { content: ''; position: absolute; bottom: -11px; left: 28px;
+      .ht-bubble--big { font-size: 17px; padding: 18px 18px 16px; font-weight: 800; }
+      .ht-bubble::after { content: ''; position: absolute; bottom: -11px; left: 32px;
         border: 6px solid transparent; border-top-color: var(--ink); }
-      .ht-btns { display: flex; gap: 8px; margin-top: 10px; }
-      .ht-btn { font-size: 12.5px; border: 3px solid var(--ink); padding: 5px 12px; background: #fff; font-weight: 800; }
+      .ht-btns { display: flex; gap: 8px; margin-top: 14px; }
+      .ht-btn { font-size: 13px; border: 3px solid var(--ink); padding: 6px 14px; background: #fff; font-weight: 800; }
       .ht-btn--ok { background: var(--red); color: #fff; }
-      .howto ol { margin: 6px 0 0 2px; list-style: none; font-size: 13.5px; color: var(--ink2); line-height: 1.8; }
-      .howto ol b { color: var(--ink); }
-      .howto .reward { margin-top: 12px; font-size: 13px; color: var(--deep); font-weight: 800; }
-      @media (max-width: 860px) { .howto-grid { grid-template-columns: 1fr; } }
+      .ht-cap { margin-top: 16px; font-size: 12.5px; color: var(--ink2); text-align: center; }
+      .ht-steps { display: flex; flex-direction: column; gap: 10px; }
+      .ht-step {
+        display: flex; gap: 14px; align-items: center; background: #fff;
+        border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); padding: 12px 16px;
+      }
+      .ht-step i {
+        flex: none; width: 34px; height: 34px; display: grid; place-items: center; font-style: normal;
+        font-family: 'Press Start 2P', monospace; font-size: 14px; color: #fff;
+        background: var(--moon, var(--red)); background: var(--red); border: 3px solid var(--ink);
+      }
+      .ht-step b { display: block; font-size: 15.5px; color: var(--ink); }
+      .ht-step small { display: block; font-size: 12.5px; color: var(--ink2); margin-top: 2px; }
+      .ht-steps .reward { margin-top: 6px; font-size: 13.5px; color: var(--deep); font-weight: 800; }
+      @media (max-width: 860px) { .ht-wrap { grid-template-columns: 1fr; } }
       /* ---------- GROWTH ---------- */
       .growth { background: var(--ink); color: var(--paper); max-width: none; }
       .growth-inner { max-width: 1080px; margin: 0 auto; }
@@ -439,34 +450,42 @@
 
     <section>
       <div class="kicker">— HOW TO</div>
-      <h2>이렇게 챙겨줘요.</h2>
-      <p class="secsub">먹던 영양제가 있는데, 놓치셨던 기억이 있으신가요? 그럼 케어퐁을 이용해보세요.</p>
-      <div class="howto-grid">
-        <div class="howto">
-          <h3>💊 약 · 영양제 챙기기</h3>
-          <div class="ht-bubble">
+
+      <h2>일하느라 비타민 챙겨 먹는 걸 깜빡한다면?</h2>
+      <p class="secsub">등록만 해두면, 시간마다 케어퐁이 바탕화면에서 말을 걸어요.</p>
+      <div class="ht-wrap">
+        <div class="ht-mock">
+          <div class="ht-bubble ht-bubble--big">
             유산균 드실 시간이에요 💊
             <div class="ht-btns"><span class="ht-btn ht-btn--ok">먹었어요</span><span class="ht-btn">나중에</span></div>
           </div>
-          <ol>
-            <li>1️⃣ 설정에서 <b>약 이름·시간 등록</b> (예: 유산균 · 아침 9시)</li>
-            <li>2️⃣ 시간이 되면 펫이 <b>말풍선으로 알려줘요</b></li>
-            <li>3️⃣ [먹었어요] 한 번 — 바쁘면 [나중에]로 10분 뒤 다시!</li>
-          </ol>
-          <p class="reward">→ 챙길 때마다 펫 기력 UP·경험치 UP, 놓쳐도 벌점은 없어요</p>
+          <p class="ht-cap">▲ 시간이 되면 펫 머리 위로 뜨는 말풍선</p>
         </div>
-        <div class="howto">
-          <h3>💧 물 챙기기</h3>
-          <div class="ht-bubble">
+        <div class="ht-steps">
+          <div class="ht-step"><i>1</i><div><b>설정에서 약 이름 입력</b><small>자동완성이 정확한 제품명을 찾아줘요 (예: 유산균, 비타민D)</small></div></div>
+          <div class="ht-step"><i>2</i><div><b>복용 시간 등록</b><small>아침 9시 · 점심 1시… 여러 개도 OK, 매일 자동 반복</small></div></div>
+          <div class="ht-step"><i>3</i><div><b>시간이 되면 말풍선 알림</b><small>일하던 화면 그대로 — 펫이 조용히 알려줘요</small></div></div>
+          <div class="ht-step"><i>4</i><div><b>[먹었어요] 클릭이면 끝!</b><small>펫 기력·경험치 UP ✨ 바쁘면 [나중에] → 10분 뒤 다시</small></div></div>
+          <p class="reward">놓쳐도 벌점은 없어요 — 기록만 남고, 펫은 늘 당신 편이에요</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 64px;">하루에 물, 몇 잔 드시나요?</h2>
+      <p class="secsub">모니터 앞에선 한 잔도 어렵죠. 케어퐁이 틈틈이 한 잔씩 권해드려요.</p>
+      <div class="ht-wrap">
+        <div class="ht-mock">
+          <div class="ht-bubble ht-bubble--big">
             물 한 잔 어때요? 💧
             <div class="ht-btns"><span class="ht-btn ht-btn--ok">마셨어요</span><span class="ht-btn">나중에</span></div>
           </div>
-          <ol>
-            <li>1️⃣ 하루 목표만 정해두세요 (기본 <b>8컵 · 90분 간격</b>)</li>
-            <li>2️⃣ 일하다 보면 펫이 <b>틈틈이 물 한 잔</b>을 권해요</li>
-            <li>3️⃣ [마셨어요] 누르다 보면 <b>목표 달성!</b> 그날 알림은 끝</li>
-          </ol>
-          <p class="reward">→ 수분 챙기기 = 펫 건강 UP, 스트레칭·휴식도 같은 방식이에요</p>
+          <p class="ht-cap">▲ 90분마다 살짝, 일 방해 없이</p>
+        </div>
+        <div class="ht-steps">
+          <div class="ht-step"><i>1</i><div><b>하루 목표만 정하기</b><small>기본 8컵 · 90분 간격 — 내 패턴에 맞게 조절 가능</small></div></div>
+          <div class="ht-step"><i>2</i><div><b>틈틈이 물 한 잔 제안</b><small>집중을 깨지 않는 작은 말풍선으로</small></div></div>
+          <div class="ht-step"><i>3</i><div><b>[마셨어요] → 한 컵 적립</b><small>펫 건강 UP 💪 마실 때마다 목표에 가까워져요</small></div></div>
+          <div class="ht-step"><i>4</i><div><b>목표 달성하면 그날은 끝</b><small>8컵 채우면 물 알림 자동 종료, 자정에 새로 시작</small></div></div>
+          <p class="reward">스트레칭·휴식 알림도 똑같이 — 버튼 한 번이면 돼요</p>
         </div>
       </div>
     </section>

@@ -122,9 +122,7 @@
       }
       .lead { font-size: 19px; margin-bottom: 8px; }
       .sub { font-size: 15px; color: var(--ink2); margin-bottom: 28px; }
-      .beta-note { font-size: 14.5px; color: var(--ink); background: var(--mint); display: inline-block;
-        border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 7px 12px; margin-bottom: 22px; }
-      .beta-note b { color: var(--deep); }
+      .beta-small { margin-top: 14px; font-size: 12.5px; color: var(--ink2); }
       .cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
       .btn {
         font-family: 'Press Start 2P', monospace;
@@ -255,6 +253,12 @@
       .card h3 { font-size: 16px; margin-bottom: 8px; }
       .card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
 
+
+      /* ---------- 밴드 배경 ---------- */
+      section.band { max-width: none; padding: 70px 0; }
+      .band-inner { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+      .band--howto { background: #eefaf6; background-image: radial-gradient(#dff2ec 1.5px, transparent 1.6px); background-size: 14px 14px; }
+      .band--feat { background: #f3f0fb; background-image: radial-gradient(#e6e0f5 1.5px, transparent 1.6px); background-size: 14px 14px; }
 
       /* ---------- HOW TO ---------- */
       .ht-wrap { margin-top: 30px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 24px; align-items: stretch; }
@@ -387,7 +391,6 @@
         <h1 class="title rv" style="animation-delay: 0.12s">CARE<br />PONG</h1>
         <p class="lead rv" style="animation-delay: 0.2s">스트레스 받는 순간, <b>케어퐁</b>이 먼저 알아차려요.</p>
         <p class="sub rv" style="animation-delay: 0.26s">키보드·마우스의 리듬으로 당신의 스트레스를 알아채고,<br />케어해주는 나만의 데스크톱 펫 🐾</p>
-        <p class="beta-note rv" style="animation-delay: 0.3s">🎉 <b>1차 베타 10/14 ~ 10/21</b> · 이후 정식 버전 출시 — 지금 설치하면 이어서 계속 쓸 수 있어요!</p>
         <div class="cta-row rv" style="animation-delay: 0.34s">
           <a class="btn" href="https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-1.0.0.exe" download>
             ▶ WINDOWS 다운로드
@@ -398,6 +401,7 @@
             <small>출시 예정</small>
           </button>
         </div>
+        <p class="beta-small rv" style="animation-delay: 0.4s">🎉 1차 베타 10/14~10/21 · 이후 정식 버전 출시 — 지금 설치하면 이어서 계속 쓸 수 있어요</p>
       </div>
 
       <div class="device-wrap rv" style="animation-delay: 0.18s">
@@ -422,7 +426,8 @@
       </div>
     </header>
 
-    <section>
+    <section class="band band--howto">
+      <div class="band-inner">
       <div class="kicker">— HOW TO</div>
 
       <h2 class="qhead"><span class="hl">일하다 <b>스트레스</b>, 받으시나요?</span></h2>
@@ -481,9 +486,11 @@
           <p class="reward">✨ 한 잔 한 잔이 전부 경험치 — 어느새 Lv.5, 가장 화려한 내 펫을 만나요!</p>
         </div>
       </div>
+      </div>
     </section>
 
-    <section>
+    <section class="band band--feat">
+      <div class="band-inner">
       <div class="kicker">— FEATURES</div>
       <h2>스트레스도, 약도, 챙겨줄게.</h2>
       <p class="secsub">모니터 앞에만 하루종일 앉아있는 나를 위한 종합 건강관리미! 스트레스부터 영양제까지 챙겨요</p>
@@ -508,6 +515,7 @@
           <h3>키우는 재미</h3>
           <p>돌볼수록 Lv.5까지 점점 화려해지는 성장. 만렙이 되면 다음 친구가 찾아오고, 펫 도감에 모여요.</p>
         </div>
+      </div>
       </div>
     </section>
 
@@ -580,6 +588,7 @@
             <small>출시 예정</small>
           </button>
         </div>
+        <p class="beta-small rv" style="animation-delay: 0.4s">🎉 1차 베타 10/14~10/21 · 이후 정식 버전 출시 — 지금 설치하면 이어서 계속 쓸 수 있어요</p>
         <p class="notice">
           케어퐁은 업무 리듬 측정을 위해 키보드·마우스의 입력 횟수와 움직임을 수집합니다.
           입력한 글자 내용이나 창 제목은 수집하지 않습니다.

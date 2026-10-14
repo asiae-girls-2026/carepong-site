@@ -122,6 +122,9 @@
       }
       .lead { font-size: 19px; margin-bottom: 8px; }
       .sub { font-size: 15px; color: var(--ink2); margin-bottom: 28px; }
+      .beta-note { font-size: 14.5px; color: var(--ink); background: var(--mint); display: inline-block;
+        border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 7px 12px; margin-bottom: 22px; }
+      .beta-note b { color: var(--deep); }
       .cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
       .btn {
         font-family: 'Press Start 2P', monospace;
@@ -249,6 +252,27 @@
       .card h3 { font-size: 16px; margin-bottom: 8px; }
       .card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
 
+
+      /* ---------- HOW TO ---------- */
+      .howto-grid { margin-top: 38px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+      .howto {
+        background: #fff; border: 4px solid var(--ink); box-shadow: 7px 7px 0 var(--ink);
+        padding: 22px 20px;
+      }
+      .howto h3 { font-size: 18px; margin-bottom: 14px; }
+      .ht-bubble {
+        position: relative; background: var(--paper); border: 3px solid var(--ink);
+        padding: 12px 14px; margin: 10px 0 14px; font-size: 14px;
+      }
+      .ht-bubble::after { content: ''; position: absolute; bottom: -11px; left: 28px;
+        border: 6px solid transparent; border-top-color: var(--ink); }
+      .ht-btns { display: flex; gap: 8px; margin-top: 10px; }
+      .ht-btn { font-size: 12.5px; border: 3px solid var(--ink); padding: 5px 12px; background: #fff; font-weight: 800; }
+      .ht-btn--ok { background: var(--red); color: #fff; }
+      .howto ol { margin: 6px 0 0 2px; list-style: none; font-size: 13.5px; color: var(--ink2); line-height: 1.8; }
+      .howto ol b { color: var(--ink); }
+      .howto .reward { margin-top: 12px; font-size: 13px; color: var(--deep); font-weight: 800; }
+      @media (max-width: 860px) { .howto-grid { grid-template-columns: 1fr; } }
       /* ---------- GROWTH ---------- */
       .growth { background: var(--ink); color: var(--paper); max-width: none; }
       .growth-inner { max-width: 1080px; margin: 0 auto; }
@@ -349,6 +373,7 @@
         <h1 class="title rv" style="animation-delay: 0.12s">CARE<br />PONG</h1>
         <p class="lead rv" style="animation-delay: 0.2s">스트레스 받는 순간, <b>케어퐁</b>이 먼저 알아차려요.</p>
         <p class="sub rv" style="animation-delay: 0.26s">키보드·마우스의 리듬으로 당신의 스트레스를 알아채고,<br />케어해주는 나만의 데스크톱 펫 🐾</p>
+        <p class="beta-note rv" style="animation-delay: 0.3s">🎉 <b>1차 베타 10/14 ~ 10/21</b> · 이후 정식 버전 출시 — 지금 설치하면 이어서 계속 쓸 수 있어요!</p>
         <div class="cta-row rv" style="animation-delay: 0.34s">
           <a class="btn" href="https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-1.0.0.exe" download>
             ▶ WINDOWS 다운로드
@@ -411,6 +436,41 @@
       </div>
     </section>
 
+
+    <section>
+      <div class="kicker">— HOW TO</div>
+      <h2>이렇게 챙겨줘요.</h2>
+      <p class="secsub">설정은 1분, 그다음은 케어퐁이 알아서. 바탕화면 말풍선에서 버튼 한 번이면 끝!</p>
+      <div class="howto-grid">
+        <div class="howto">
+          <h3>💊 약 · 영양제 챙기기</h3>
+          <div class="ht-bubble">
+            유산균 드실 시간이에요 💊
+            <div class="ht-btns"><span class="ht-btn ht-btn--ok">먹었어요</span><span class="ht-btn">나중에</span></div>
+          </div>
+          <ol>
+            <li>1️⃣ 설정에서 <b>약 이름·시간 등록</b> (예: 유산균 · 아침 9시)</li>
+            <li>2️⃣ 시간이 되면 펫이 <b>말풍선으로 알려줘요</b></li>
+            <li>3️⃣ [먹었어요] 한 번 — 바쁘면 [나중에]로 10분 뒤 다시!</li>
+          </ol>
+          <p class="reward">→ 챙길 때마다 펫 기력 UP·경험치 UP, 놓쳐도 벌점은 없어요</p>
+        </div>
+        <div class="howto">
+          <h3>💧 물 챙기기</h3>
+          <div class="ht-bubble">
+            물 한 잔 어때요? 💧
+            <div class="ht-btns"><span class="ht-btn ht-btn--ok">마셨어요</span><span class="ht-btn">나중에</span></div>
+          </div>
+          <ol>
+            <li>1️⃣ 하루 목표만 정해두세요 (기본 <b>8컵 · 90분 간격</b>)</li>
+            <li>2️⃣ 일하다 보면 펫이 <b>틈틈이 물 한 잔</b>을 권해요</li>
+            <li>3️⃣ [마셨어요] 누르다 보면 <b>목표 달성!</b> 그날 알림은 끝</li>
+          </ol>
+          <p class="reward">→ 수분 챙기기 = 펫 건강 UP, 스트레칭·휴식도 같은 방식이에요</p>
+        </div>
+      </div>
+    </section>
+
     <section class="growth">
       <div class="growth-inner">
         <div class="kicker">— EVOLUTION</div>
@@ -469,7 +529,7 @@
       <div class="panel">
         <div class="particles" id="particles2"></div>
         <h2>케어퐁, 만나러 갈까요?</h2>
-        <p>윈도우에서 먼저 만나요. 맥은 출시 예정이에요 ☕</p>
+        <p><b>1차 베타 10/14 ~ 10/21</b> · 베타가 끝나도 정식 버전으로 이어서 쓸 수 있어요!<br/>윈도우에서 먼저 만나요. 맥은 출시 예정 ☕</p>
         <div class="cta-row" style="justify-content: center;">
           <a class="btn" href="https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-1.0.0.exe" download>
             ▶ WINDOWS 다운로드

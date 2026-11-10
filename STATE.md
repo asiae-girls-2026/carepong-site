@@ -3,9 +3,8 @@
 _업데이트: 2026-10-05_
 
 ## 링크/배포 현황 (2026-10-05)
-- **이 레포는 이제 케어퐁(CarePong) 랜딩** — 필리몽 랜딩을 케어퐁 다운로드 사이트로 전면 개편.
-- **배포 완료: https://carepong.vercel.app** (Vercel 새 프로젝트 `carepong`, 프로덕션, `site/` 정적 배포, noindex 유지)
-- 구 주소 https://pillymon.vercel.app 는 옛 필리몽 내용 그대로 살아있음(프로젝트 `pillymon` 별도) — 내릴지 보류.
+- **이 레포는 케어퐁(CarePong) 랜딩/다운로드 사이트.**
+- **배포 완료: https://carepong.vercel.app** (Vercel 프로젝트 `carepong`, 프로덕션, `site/` 정적 배포, noindex 유지)
 - 재배포: `cd ~/Desktop/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/site && vercel --prod --yes` (`.vercel/`이 carepong에 링크됨)
 - **다운로드(10/5 저녁)**: 윈도우 설치본(102MB)은 Vercel 100MB 한도 초과 → **Vercel Blob**(스토어 carepong-files, public)으로 호스팅. URL: https://gzwbc89fomhmd1ao.public.blob.vercel-storage.com/CarePong-Setup-win-0.1.0.exe · 재업로드: `cd site && vercel blob put <파일> --access public --rw-token $(grep BLOB_READ_WRITE_TOKEN .env.local | cut -d'"' -f2)` (.env.local은 git/배포 제외). 맥 버튼은 '출시 예정' 토스트.
 - 개편 내용: 카피 전부 케어퐁(스트레스 감지·1분 완화·알람4종·미니홈·하트 방꾸미기·펫 도감, 죽음 없음) / 캐릭터 3종 소개(검정 고양이·용가리·미스터리 박스) / 성장 5단계 = 디자인본 고양이 Lv.1~5.
@@ -15,7 +14,7 @@ _업데이트: 2026-10-05_
 - **앱(desktop-pet)**: 1차 마감 완료(태그 `app-1.0`). 별도 레포 `/Users/chaewon/Desktop/프로젝트/2026.06-09_필리몽/desktop-pet_원조앱`.
 - **사이트(이 레포)**: 배포용 랜딩 설계 확정 → 픽셀 펫 아트 방식 탐색 중.
   - 설계 문서: `docs/superpowers/specs/2026-06-20-pillymon-landing-design.md`
-  - 이름 **케어퐁(CarePong)**(구 필리몽), 단일 롱스크롤, 정적 배포, 스트레스 케어+귀여움, 다운로드 버튼 실제 연결.
+  - 이름 **케어퐁(CarePong)**, 단일 롱스크롤, 정적 배포, 스트레스 케어+귀여움, 다운로드 버튼 실제 연결.
 
 ## 만들어 둔 시안/실험 (`preview/`)
 - `../site/index.html` — 픽셀 다마고치 **랜딩**(히어로/기능/성장/스토리/CTA) — 배포됨(위 링크). `preview/`에서 이동함.

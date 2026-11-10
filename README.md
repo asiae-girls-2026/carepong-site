@@ -1,10 +1,12 @@
 # 케어퐁 사이트 (carepong-site)
 
-필리몽(Pillymon) 데스크탑 펫 앱의 **랜딩 페이지**와 **픽셀 펫 아트 워크숍** 레포.
+케어퐁(CarePong) 데스크탑 케어펫 앱의 **랜딩/다운로드 페이지**와 **픽셀 펫 아트 워크숍** 레포.
 
-- **라이브**: https://pillymon.vercel.app (프로덕션, 검색 차단 중)
+- **라이브**: https://carepong.vercel.app (프로덕션, 검색 차단 중)
 - **앱 본체**: `desktop-pet` 레포 (Electron 데스크탑 다마고치)
 - **진행 상태·결정 이력**: [STATE.md](STATE.md) ← 재개할 때 여기부터
+
+> 이 레포는 옛 필리몽(Pillymon) 랜딩을 케어퐁 다운로드 사이트로 전면 개편한 것입니다.
 
 ## 폴더 구조
 
@@ -24,7 +26,15 @@ docs/       설계 문서 (랜딩 디자인 스펙)
 cd site && vercel --prod --yes
 ```
 
-Vercel 프로젝트 `pillymon`에 이미 연결돼 있어 명령 한 줄로 끝. 검색 차단(noindex + robots.txt)이 걸려 있으니 정식 공개 시점에 해제할 것.
+Vercel 프로젝트 `carepong`에 이미 연결돼 있어 명령 한 줄로 끝. 검색 차단(noindex + robots.txt)이 걸려 있으니 정식 공개 시점에 해제할 것.
+
+다운로드 설치본은 Vercel 100MB 한도 초과로 **Vercel Blob**(스토어 carepong-files, public)에 호스팅. 재업로드:
+
+```bash
+cd site && vercel blob put <파일> --access public --rw-token $(grep BLOB_READ_WRITE_TOKEN .env.local | cut -d'"' -f2)
+```
+
+(`.env.local`은 git/배포 제외)
 
 ## 협업 규칙
 

@@ -1,4 +1,4 @@
-# 필리몽 사이트 (pillymon-site)
+# 케어퐁 사이트 (pillymon-site)
 
 필리몽(Pillymon) 데스크탑 펫 앱의 **랜딩 페이지**와 **픽셀 펫 아트 워크숍** 레포.
 

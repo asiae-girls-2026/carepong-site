@@ -2,6 +2,10 @@
 
 Landing / download page for **CarePong**, a desktop care-pet app, and the pixel-art scripts behind its characters.
 
+> **Note**: This repository is the **landing page** (introduction + download) for CarePong, **not the app itself**. The app source lives in the separate `desktop-pet` repository.
+>
+> 이 레포는 케어퐁 앱의 **랜딩 페이지**(소개·다운로드)이며, **앱 본체가 아닙니다**. 앱 소스는 별도 `desktop-pet` 레포에 있습니다.
+
 🌐 **Live**: https://carepong.vercel.app
 
 **Language**: [English](#english) · [한국어](#한국어)

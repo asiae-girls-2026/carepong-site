@@ -1,5 +1,5 @@
 const { save } = require('./render-lib.cjs')
-const { PNG } = require('/Users/chaewon/desktop-pet/node_modules/pngjs'); const fs=require('fs')
+const { PNG } = require('pngjs'); const fs=require('fs')
 const W=32,H=32
 // 11-color palette
 const PAL={'.':null,'K':'#3a2e4d','B':'#ffc6e0','b':'#f29ec8','d':'#e07ba8','W':'#fff3fa',

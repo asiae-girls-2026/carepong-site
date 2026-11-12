@@ -1,6 +1,6 @@
-const { PNG } = require('/Users/chaewon/desktop-pet/node_modules/pngjs')
+const { PNG } = require('pngjs')
 const fs = require('fs')
-const SRC='/Users/chaewon/Downloads/ChatGPT Image 2026년 6월 21일 오전 12_09_42.png'
+const SRC = process.argv[2]; if (!SRC) { console.error('usage: node scripts/trace-hd.cjs <source.png>'); process.exit(1) }
 const png=PNG.sync.read(fs.readFileSync(SRC)); const SW=png.width,SH=png.height
 const N=128
 const cells=Array.from({length:N},()=>Array(N).fill(null))

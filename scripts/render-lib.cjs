@@ -1,4 +1,4 @@
-const { PNG } = require('/Users/chaewon/desktop-pet/node_modules/pngjs')
+const { PNG } = require('pngjs')
 const fs = require('fs')
 function hex(c){ return [parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)] }
 function save(g, PAL, scale, path, bg){

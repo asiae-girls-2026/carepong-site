@@ -1,4 +1,4 @@
-const { PNG } = require('/Users/chaewon/desktop-pet/node_modules/pngjs')
+const { PNG } = require('pngjs')
 const fs = require('fs')
 const SRC=process.argv[2], OUT=process.argv[3], N=Number(process.argv[4]||128)
 const png=PNG.sync.read(fs.readFileSync(SRC)); const SW=png.width,SH=png.height

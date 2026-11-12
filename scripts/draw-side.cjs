@@ -49,7 +49,7 @@ function build(phase){
 save(build(0),PAL,1,'preview/hand/side_0.png')
 save(build(1),PAL,1,'preview/hand/side_1.png')
 // 2-up view
-const { PNG } = require('/Users/chaewon/desktop-pet/node_modules/pngjs');const fs=require('fs')
+const { PNG } = require('pngjs');const fs=require('fs')
 const a=PNG.sync.read(fs.readFileSync('preview/hand/side_0.png')),b=PNG.sync.read(fs.readFileSync('preview/hand/side_1.png'))
 const SC=6,GAP=16,VW=W*SC*2+GAP*3,VH=H*SC+GAP*2,V=new PNG({width:VW,height:VH})
 for(let i=0;i<V.data.length;i+=4){V.data[i]=238;V.data[i+1]=236;V.data[i+2]=243;V.data[i+3]=255}

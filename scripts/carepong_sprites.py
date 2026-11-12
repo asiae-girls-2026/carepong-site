@@ -2,11 +2,23 @@
 # 1) 고양이 1~5: 베이지 격자 배경 플러드필 제거 + 'Lv.N' 라벨/잔여 조각 제거 + 알파 트림
 # 2) 용가리: 알파 트림 + 다운스케일
 # 3) 미스터리 박스: 24×24 픽셀 작도 → ×12 nearest
+#
+# 사용법: python scripts/carepong_sprites.py <디자인 원본 폴더> [출력 폴더]
+#   - 디자인 원본 폴더: 고양이1.png ~ 고양이5.png, 용가리.png 가 있는 폴더
+#   - 출력 폴더 생략 시 레포의 site/sprites/ 에 저장
+import os
+import sys
 from collections import deque
 from PIL import Image
 
-SRC = '/Users/chaewon/Desktop/프로젝트/2026.09-10_케어퐁/디자인/'
-OUT = '/Users/chaewon/Desktop/프로젝트/2026.09-10_케어퐁/pillymon-site_랜딩사이트/site/sprites/'
+if len(sys.argv) < 2:
+    sys.exit('usage: python scripts/carepong_sprites.py <design-dir> [out-dir]')
+SRC = os.path.join(sys.argv[1], '')
+OUT = os.path.join(
+    sys.argv[2] if len(sys.argv) > 2
+    else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'site', 'sprites'),
+    '')
+os.makedirs(OUT, exist_ok=True)
 
 
 def flood_bg(im, tol=26):

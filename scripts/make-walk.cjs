@@ -1,4 +1,4 @@
-const { PNG } = require('/Users/chaewon/desktop-pet/node_modules/pngjs')
+const { PNG } = require('pngjs')
 const fs = require('fs')
 const base = PNG.sync.read(fs.readFileSync('preview/dot/axo64.png'))
 const N = base.width

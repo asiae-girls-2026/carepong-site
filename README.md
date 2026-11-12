@@ -60,13 +60,7 @@ carepong-site/
 ### Development environment
 
 - **Editing the landing page**: a text editor and a browser, nothing else
-- **Running the sprite script** (only when character art changes)
-
-  | Tool | Version | Used for |
-  |------|---------|----------|
-  | Python | 3.10+ (tested on 3.13) | `scripts/carepong_sprites.py` |
-  | Pillow | 10+ | image processing |
-
+- **Sprite helper script** (`scripts/carepong_sprites.py`): Python 3.10+ with Pillow 10+
 - Developed on macOS and Windows 11
 
 ### Getting started
@@ -79,20 +73,6 @@ cd carepong-site
 - **View the landing page**
   - macOS: `open site/index.html`
   - Windows: `start site\index.html`
-- **Regenerate sprites from designer originals** (optional)
-  ```bash
-  pip install -r scripts/requirements.txt
-  python scripts/carepong_sprites.py <design-dir> [out-dir]   # default out: site/sprites/
-  ```
-  - `<design-dir>` must contain `고양이1.png` … `고양이5.png` and `용가리.png`
-  - The script removes the beige grid background, trims transparent edges, downsizes the dragon and draws the mystery box
-
-### Contributing
-
-- Branch → pull request → one approving review → merge (no direct pushes to `main`)
-- Use the PR template; attach a screenshot for `site/` changes
-- New images go under `site/sprites/` or `site/shots/`
-- Never commit `.env*` or `.vercel/`
 
 ### License
 
@@ -150,13 +130,7 @@ carepong-site/
 ### 개발 환경
 
 - **랜딩 페이지 수정**: 텍스트 에디터와 브라우저만 있으면 됨
-- **스프라이트 스크립트 실행** (캐릭터 그림이 바뀔 때만)
-
-  | 도구 | 버전 | 용도 |
-  |------|------|------|
-  | Python | 3.10 이상 (3.13에서 확인) | `scripts/carepong_sprites.py` |
-  | Pillow | 10 이상 | 이미지 처리 |
-
+- **스프라이트 보조 스크립트** (`scripts/carepong_sprites.py`): Python 3.10 이상 + Pillow 10 이상
 - macOS와 Windows 11에서 개발
 
 ### 시작하기
@@ -169,20 +143,6 @@ cd carepong-site
 - **랜딩 페이지 보기**
   - macOS: `open site/index.html`
   - Windows: `start site\index.html`
-- **디자이너 원본으로 스프라이트 다시 만들기** (선택)
-  ```bash
-  pip install -r scripts/requirements.txt
-  python scripts/carepong_sprites.py <디자인폴더> [출력폴더]   # 출력 기본값: site/sprites/
-  ```
-  - `<디자인폴더>`에는 `고양이1.png` … `고양이5.png`, `용가리.png`가 있어야 함
-  - 베이지 격자 배경 제거, 투명 여백 트림, 용 축소, 미스터리 박스 작도를 수행
-
-### 협업 규칙
-
-- 브랜치 → PR → 리뷰 1인 승인 → 머지 (`main` 직접 푸시 금지)
-- PR 템플릿 사용, `site/` 변경 시 스크린샷 첨부
-- 새 이미지는 `site/sprites/` 또는 `site/shots/`에
-- `.env*`, `.vercel/`은 커밋하지 않음
 
 ### 라이선스
 

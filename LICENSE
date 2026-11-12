@@ -22,8 +22,8 @@ SOFTWARE.
 
 ---
 
-Note on assets: the image files under `site/sprites/`, `site/shots/` and
-`preview/` (character sprites, pixel art, app screenshots, logo) are NOT
-covered by the MIT License above. They are © 2026 the CarePong team,
+Note on assets: the image files under `site/sprites/` and `site/shots/`
+(character sprites, logo, app screenshots) are NOT covered by the MIT
+License above. They are © 2026 the CarePong team,
 all rights reserved, and may not be reused outside this project without
 permission.
